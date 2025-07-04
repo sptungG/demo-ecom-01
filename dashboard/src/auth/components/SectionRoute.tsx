@@ -19,6 +19,7 @@ const matchAll = (match: MatchPermissionType) => match === "all";
 export const SectionRoute: React.FC<SectionRouteProps> = ({
   permissions,
   matchPermission = "all",
+  path,
   ...props
 }) => {
   const { user } = useUser();
@@ -40,7 +41,7 @@ export const SectionRoute: React.FC<SectionRouteProps> = ({
     return hasAnyPermissions(permissions, user!);
   };
 
-  return hasSectionPermissions() ? <Route {...props} /> : <NotFound />;
+  return hasSectionPermissions() ? <Route path={path} {...props} /> : <NotFound />;
 };
 SectionRoute.displayName = "Route";
 export default SectionRoute;
