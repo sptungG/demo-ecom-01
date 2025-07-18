@@ -21,6 +21,8 @@ services:
     environment:
       - DASHBOARD_URL=http://localhost:9000/,https://demo-ecom-01.vercel.app/
       - ALLOWED_HOSTS=38d1-14-224-129-91.ngrok-free.app,localhost,api
+      - PUBLIC_URL=http://localhost:8000
+      # - PUBLIC_URL=38d1-14-224-129-91.ngrok-free.app
 
   # dashboard:
   #   image: ghcr.io/saleor/saleor-dashboard:latest

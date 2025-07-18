@@ -144,13 +144,13 @@ export function useMenuStructure() {
           permissions: [PermissionEnum.MANAGE_PRODUCTS],
           type: "item",
         },
-        {
-          label: intl.formatMessage(sectionNames.giftCards),
-          id: "giftCards",
-          url: giftCardListUrl(),
-          permissions: [PermissionEnum.MANAGE_GIFT_CARD],
-          type: "item",
-        },
+        // {
+        //   label: intl.formatMessage(sectionNames.giftCards),
+        //   id: "giftCards",
+        //   url: giftCardListUrl(),
+        //   permissions: [PermissionEnum.MANAGE_GIFT_CARD],
+        //   type: "item",
+        // },
         ...mapToExtensionsItems(
           extensions.NAVIGATION_CATALOG,
           appExtensionsHeaderItem,
@@ -217,33 +217,33 @@ export function useMenuStructure() {
       url: customerListUrl(),
       type: !isEmpty(extensions.NAVIGATION_CUSTOMERS) ? "itemGroup" : "item",
     },
-    {
-      children: [
-        {
-          label: intl.formatMessage(sectionNames.promotions),
-          id: "promotions",
-          url: saleListUrl(),
-          type: "item",
-        },
-        {
-          label: intl.formatMessage(sectionNames.vouchers),
-          id: "vouchers",
-          url: voucherListUrl(),
-          type: "item",
-        },
-        ...mapToExtensionsItems(
-          extensions.NAVIGATION_DISCOUNTS,
-          appExtensionsHeaderItem,
-          showExtensions,
-        ),
-      ],
-      icon: renderIcon(<DiscountsIcon />),
-      label: intl.formatMessage(commonMessages.discounts),
-      permissions: [PermissionEnum.MANAGE_DISCOUNTS],
-      url: saleListUrl(),
-      id: "discounts",
-      type: "itemGroup",
-    },
+    // {
+    //   children: [
+    //     {
+    //       label: intl.formatMessage(sectionNames.promotions),
+    //       id: "promotions",
+    //       url: saleListUrl(),
+    //       type: "item",
+    //     },
+    //     {
+    //       label: intl.formatMessage(sectionNames.vouchers),
+    //       id: "vouchers",
+    //       url: voucherListUrl(),
+    //       type: "item",
+    //     },
+    //     ...mapToExtensionsItems(
+    //       extensions.NAVIGATION_DISCOUNTS,
+    //       appExtensionsHeaderItem,
+    //       showExtensions,
+    //     ),
+    //   ],
+    //   icon: renderIcon(<DiscountsIcon />),
+    //   label: intl.formatMessage(commonMessages.discounts),
+    //   permissions: [PermissionEnum.MANAGE_DISCOUNTS],
+    //   url: saleListUrl(),
+    //   id: "discounts",
+    //   type: "itemGroup",
+    // },
     {
       children: [
         {
@@ -300,7 +300,7 @@ export function useMenuStructure() {
       url: languageListUrl,
       type: !isEmpty(extensions.NAVIGATION_TRANSLATIONS) ? "itemGroup" : "item",
     },
-    showExtensions ? getExtensionsSection() : getAppSection(),
+    // showExtensions ? getExtensionsSection() : getAppSection(),
     {
       icon: renderIcon(<ConfigurationIcon />),
       label: intl.formatMessage(sectionNames.configuration),
