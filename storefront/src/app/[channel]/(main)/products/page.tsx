@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
-import { CategoryListDocument, ProductListPaginatedDocument } from "@/gql/graphql";
+import { ProductsPerPage } from "@/app/config";
+import { ProductListPaginatedDocument } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/graphql";
 import { Pagination } from "@/ui/components/Pagination";
 import { ProductList } from "@/ui/components/ProductList";
-import { ProductsPerPage } from "@/app/config";
 
 export const metadata = {
 	title: "Products · Storefront",
@@ -29,14 +29,14 @@ export default async function Page(props: {
 		revalidate: 60,
 	});
 
-	const { categories } = await executeGraphQL(CategoryListDocument, {
-		variables: {
-			first: 100,
-			after: null,
-			channel: params.channel,
-		},
-		revalidate: 60,
-	});
+	// const { categories } = await executeGraphQL(CategoryListDocument, {
+	// 	variables: {
+	// 		first: 100,
+	// 		after: null,
+	// 		channel: params.channel,
+	// 	},
+	// 	revalidate: 60,
+	// });
 
 	if (!products) {
 		notFound();

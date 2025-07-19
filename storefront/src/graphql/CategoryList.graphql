@@ -29,6 +29,9 @@ query CategoryList(
 				children {
 					totalCount
 				}
+				products {
+					totalCount
+				}
 			}
 		}
 		pageInfo {

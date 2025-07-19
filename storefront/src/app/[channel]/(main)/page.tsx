@@ -1,7 +1,7 @@
 import { CategoryListDocument, ProductListByCollectionDocument } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/graphql";
 import HomePage from "@/screens/home/HomePage";
-import { Category } from "@/screens/home/components/CategoryCard";
+import { type Category } from "@/screens/home/components/CategoryCard";
 
 export const metadata = {
 	title: "ACME Storefront",
@@ -25,11 +25,9 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 		variables: {
 			first: 100,
 			after: null,
-			channel: params.channel,
 		},
 		revalidate: 60,
 	});
-	console.log("🚀 ~ Page ~ categories:", categories);
 
 	const products = data.collection?.products.edges.map(({ node: product }) => product);
 	const getCategories = categories?.edges?.map(({ node: category }) => category);
