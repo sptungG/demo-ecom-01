@@ -27,18 +27,18 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 	return (
 		<section className="pb-16">
 			<div className="bg-[#e1e6ef]">
-				<div className="mx-auto flex w-full max-w-7xl justify-between pt-10">
-					<div className="flex w-full max-w-[500px] flex-col justify-center">
-						<h3 className="mb-5 text-5xl font-[600]">Up to 50% off!</h3>
-						<p className="text-xl">{`Don't miss out on some very special items at extraordinary sale prices. For a limited time!`}</p>
+				<div className="relative mx-auto flex w-full max-w-7xl justify-between pt-10">
+					<div className="flex w-full max-w-[400px] flex-col justify-center max-md:absolute max-md:left-5 max-md:top-1/2 max-md:-translate-y-1/2 md:max-w-[500px]">
+						<h3 className="mb-5 text-4xl font-[600] md:text-5xl">Up to 50% off!</h3>
+						<p className="text-lg md:text-xl">{`Don't miss out on some very special items at extraordinary sale prices. For a limited time!`}</p>
 					</div>
-					<div className="">
+					<div className="ml-auto">
 						<Image
 							src={"/hero_girl_optimized_0321.webp"}
 							alt="hero_girl_optimized_0321"
 							width={1000}
 							height={1000}
-							className="h-[415px] w-auto object-cover"
+							className="h-[300px] w-auto object-cover md:h-[415px]"
 						/>
 					</div>
 				</div>
