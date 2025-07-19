@@ -68,6 +68,7 @@ export const ConfigurationPage: React.FC<ConfigurationPageProps> = props => {
                   "Attributes and Product Types",
                   "Product Settings",
                   "Shipping Settings",
+                  "Multichannel",
                   "Miscellaneous",
                 ].includes(menu.label),
             )
