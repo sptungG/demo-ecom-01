@@ -42,9 +42,6 @@ export async function generateMetadata(
 	return {
 		title: `${product.name} | ${product.seoTitle || (await parent).title?.absolute}`,
 		description: product.seoDescription || productNameAndVariant,
-		alternates: {
-			canonical: `/products/${encodeURIComponent(params.slug)}`, // Use relative path
-		},
 		openGraph: product.thumbnail
 			? {
 					images: [
