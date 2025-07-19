@@ -1,7 +1,7 @@
-import Image from "next/image";
-import { ProductListByCollectionDocument } from "@/gql/graphql";
+import { CategoryListDocument, ProductListByCollectionDocument } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/graphql";
-import { ProductList } from "@/ui/components/ProductList";
+import HomePage from "@/screens/home/HomePage";
+import { Category } from "@/screens/home/components/CategoryCard";
 
 export const metadata = {
 	title: "ACME Storefront",
@@ -21,32 +21,17 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 	if (!data.collection?.products) {
 		return null;
 	}
+	const { categories } = await executeGraphQL(CategoryListDocument, {
+		variables: {
+			first: 100,
+			after: null,
+			channel: params.channel,
+		},
+		revalidate: 60,
+	});
+	console.log("🚀 ~ Page ~ categories:", categories);
 
 	const products = data.collection?.products.edges.map(({ node: product }) => product);
-
-	return (
-		<section className="pb-16">
-			<div className="bg-[#e1e6ef]">
-				<div className="relative mx-auto flex w-full max-w-7xl justify-between pt-10">
-					<div className="flex w-full max-w-[400px] flex-col justify-center max-md:absolute max-md:left-5 max-md:top-1/2 max-md:-translate-y-1/2 md:max-w-[500px]">
-						<h3 className="mb-5 text-4xl font-[600] md:text-5xl">Up to 50% off!</h3>
-						<p className="text-lg md:text-xl">{`Don't miss out on some very special items at extraordinary sale prices. For a limited time!`}</p>
-					</div>
-					<div className="ml-auto">
-						<Image
-							src={"/hero_girl_optimized_0321.webp"}
-							alt="hero_girl_optimized_0321"
-							width={1000}
-							height={1000}
-							className="h-[300px] w-auto object-cover md:h-[415px]"
-						/>
-					</div>
-				</div>
-			</div>
-			<div className="mx-auto w-full max-w-7xl p-8">
-				<h2 className="mb-5 text-center text-3xl font-[600]">Featured Products</h2>
-				<ProductList products={products} />
-			</div>
-		</section>
-	);
+	const getCategories = categories?.edges?.map(({ node: category }) => category);
+	return <HomePage products={products} categories={getCategories as Category[]} />;
 }
