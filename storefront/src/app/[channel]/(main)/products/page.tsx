@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { ProductListPaginatedDocument } from "@/gql/graphql";
+import { CategoryListDocument, ProductListPaginatedDocument } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/graphql";
 import { Pagination } from "@/ui/components/Pagination";
 import { ProductList } from "@/ui/components/ProductList";
@@ -29,6 +29,15 @@ export default async function Page(props: {
 		revalidate: 60,
 	});
 
+	const { categories } = await executeGraphQL(CategoryListDocument, {
+		variables: {
+			first: 100,
+			after: null,
+			channel: params.channel,
+		},
+		revalidate: 60,
+	});
+
 	if (!products) {
 		notFound();
 	}
@@ -40,6 +49,7 @@ export default async function Page(props: {
 	return (
 		<section className="mx-auto max-w-7xl p-8 pb-16">
 			<h2 className="sr-only">Product list</h2>
+			{/* {JSON.stringify(categories)} */}
 			<ProductList products={products.edges.map((e) => e.node)} />
 			<Pagination
 				pageInfo={{
