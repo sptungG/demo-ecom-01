@@ -1,7 +1,7 @@
 import edjsHTML from "editorjs-html";
 import { revalidatePath } from "next/cache";
 import { notFound } from "next/navigation";
-import { type Metadata } from "next";
+import { type ResolvingMetadata, type Metadata } from "next";
 import xss from "xss";
 import { invariant } from "ts-invariant";
 import { type WithContext, type Product } from "schema-dts";
@@ -14,10 +14,13 @@ import { CheckoutAddLineDocument, ProductDetailsDocument, ProductListDocument } 
 import * as Checkout from "@/lib/checkout";
 import { AvailabilityMessage } from "@/ui/components/AvailabilityMessage";
 
-export async function generateMetadata(props: {
-	params: Promise<{ slug: string; channel: string }>;
-	searchParams: Promise<{ variant?: string }>;
-}): Promise<Metadata> {
+export async function generateMetadata(
+	props: {
+		params: Promise<{ slug: string; channel: string }>;
+		searchParams: Promise<{ variant?: string }>;
+	},
+	parent: ResolvingMetadata,
+): Promise<Metadata> {
 	const [searchParams, params] = await Promise.all([props.searchParams, props.params]);
 
 	const { product } = await executeGraphQL(ProductDetailsDocument, {
@@ -37,8 +40,13 @@ export async function generateMetadata(props: {
 	const productNameAndVariant = variantName ? `${productName} - ${variantName}` : productName;
 
 	return {
-		title: `${product.name} | ${product.seoTitle}`,
+		title: `${product.name} | ${product.seoTitle || (await parent).title?.absolute}`,
 		description: product.seoDescription || productNameAndVariant,
+		alternates: {
+			canonical: process.env.NEXT_PUBLIC_STOREFRONT_URL
+				? process.env.NEXT_PUBLIC_STOREFRONT_URL + `/products/${encodeURIComponent(params.slug)}`
+				: undefined,
+		},
 		openGraph: product.thumbnail
 			? {
 					images: [
