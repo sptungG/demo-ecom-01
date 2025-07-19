@@ -96,7 +96,7 @@ export const UserControls = () => {
                   </Link>
                 </List.Item>
               </Dropdown.Item>
-              <Dropdown.Item>
+              {/* <Dropdown.Item>
                 <List.Item {...listItemStyles} onClick={() => setFlagsModalOpen(true)}>
                   <Text>
                     <FormattedMessage
@@ -106,7 +106,7 @@ export const UserControls = () => {
                     />
                   </Text>
                 </List.Item>
-              </Dropdown.Item>
+              </Dropdown.Item> */}
               <Dropdown.Item>
                 <List.Item onClick={logout} {...listItemStyles} data-test-id="log-out-button">
                   <Text>

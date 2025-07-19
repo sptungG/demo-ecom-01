@@ -12,7 +12,7 @@ const OrderCannotCancelOrderDialog: React.FC<DialogProps> = ({ open, onClose }) 
         <DashboardModal.Header>
           <FormattedMessage
             id="NhQboB"
-            defaultMessage="Saleor couldn’t cancel order"
+            defaultMessage="Couldn’t cancel order"
             description="dialog header"
           />
         </DashboardModal.Header>

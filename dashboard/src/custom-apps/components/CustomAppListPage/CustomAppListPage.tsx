@@ -59,7 +59,7 @@ const CustomAppListPage: React.FC<CustomAppListPageProps> = ({
           <Text as="p">
             <FormattedMessage
               defaultMessage="Local apps are custom webhooks & token pairs that can be used to
-            connect apps and access Saleor API."
+            connect apps and access API."
               id="L/sNGY"
             />
           </Text>

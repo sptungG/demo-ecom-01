@@ -95,12 +95,12 @@ export default defineConfig(({ command, mode }) => {
             DEMO_MODE &&
             `
             <meta property="og:type" content="website">
-            <meta property="og:title" content="Sign in to the Saleor Dashboard">
-            <meta property="og:description" content="Sign in to the Saleor Dashboard to manage your orders, payments, products and more.">
+            <meta property="og:title" content="Sign in to the Dashboard">
+            <meta property="og:description" content="Sign in to the Dashboard to manage your orders, payments, products and more.">
             <meta property="og:image" content="${base}og.png">
             <meta name="twitter:card" content="summary_large_image">
-            <meta name="twitter:title" content="Sign in to the Saleor Dashboard">
-            <meta name="twitter:description" content="Sign in to the Saleor Dashboard to manage your orders, payments, products and more.">
+            <meta name="twitter:title" content="Sign in to the Dashboard">
+            <meta name="twitter:description" content="Sign in to the Dashboard to manage your orders, payments, products and more.">
             <meta name="twitter:image" content="${base}og.png">
             <meta property="og:url" content="https://demo.saleor.io/dashboard/">
             <meta property="twitter:domain" content="demo.saleor.io">

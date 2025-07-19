@@ -1,0 +1,41 @@
+query CategoryList(
+	$first: Int = 10
+	$after: String
+	$last: Int
+	$before: String
+	$filter: CategoryFilterInput
+	$sort: CategorySortingInput
+) {
+	categories(
+		level: 0
+		first: $first
+		after: $after
+		last: $last
+		before: $before
+		filter: $filter
+		sortBy: $sort
+	) {
+		edges {
+			node {
+				id
+				name
+				slug
+				parent {
+					id
+					name
+				}
+				level
+				updatedAt
+				children {
+					totalCount
+				}
+			}
+		}
+		pageInfo {
+			hasNextPage
+			hasPreviousPage
+			startCursor
+			endCursor
+		}
+	}
+}

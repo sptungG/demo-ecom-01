@@ -61,41 +61,51 @@ export const ConfigurationPage: React.FC<ConfigurationPageProps> = props => {
       <DetailPageLayout.Content data-test-id="configuration-menu">
         <Box paddingX={6} __maxWidth={"1024px"} margin="auto">
           {menus
-            .filter(menu =>
-              menu.menuItems.some(menuItem => hasUserMenuItemPermissions(menuItem, user)),
+            .filter(
+              menu =>
+                menu.menuItems.some(menuItem => hasUserMenuItemPermissions(menuItem, user)) &&
+                [
+                  "Attributes and Product Types",
+                  "Product Settings",
+                  "Shipping Settings",
+                  "Multichannel",
+                  "Miscellaneous",
+                ].includes(menu.label),
             )
-            .map((menu, menuIndex) => (
-              <div className={classes.configurationCategory} key={menuIndex}>
-                <div className={classes.configurationLabel}>
-                  <Text>{menu.label}</Text>
+            .map((menu, menuIndex) => {
+              return (
+                <div className={classes.configurationCategory} key={menuIndex}>
+                  <div className={classes.configurationLabel}>
+                    <Text>{menu.label}</Text>
+                  </div>
+                  <div className={classes.configurationItem}>
+                    {menu.menuItems
+                      .filter(
+                        menuItem => hasUserMenuItemPermissions(menuItem, user) && !menuItem?.hidden,
+                      )
+                      .map((item, itemIndex) => (
+                        <Link
+                          className={classes.link}
+                          to={item.url}
+                          key={`${item.title}-${itemIndex}`}
+                        >
+                          <NavigationCard
+                            className={classes.navigationCard}
+                            key={itemIndex}
+                            icon={item.icon}
+                            title={item.title}
+                            description={item.description}
+                            data-test-id={
+                              item.testId + "-settings-subsection-" + item.title.toLowerCase()
+                            }
+                          />
+                        </Link>
+                      ))}
+                  </div>
                 </div>
-                <div className={classes.configurationItem}>
-                  {menu.menuItems
-                    .filter(
-                      menuItem => hasUserMenuItemPermissions(menuItem, user) && !menuItem?.hidden,
-                    )
-                    .map((item, itemIndex) => (
-                      <Link
-                        className={classes.link}
-                        to={item.url}
-                        key={`${item.title}-${itemIndex}`}
-                      >
-                        <NavigationCard
-                          className={classes.navigationCard}
-                          key={itemIndex}
-                          icon={item.icon}
-                          title={item.title}
-                          description={item.description}
-                          data-test-id={
-                            item.testId + "-settings-subsection-" + item.title.toLowerCase()
-                          }
-                        />
-                      </Link>
-                    ))}
-                </div>
-              </div>
-            ))}
-          {isExtensionsEnabled && (
+              );
+            })}
+          {/* {isExtensionsEnabled && (
             <Box marginY={4}>
               <DashboardCard withBorder gap={2} __width="fit-content">
                 <DashboardCard.Title display="flex" gap={3} alignItems="center">
@@ -119,7 +129,7 @@ export const ConfigurationPage: React.FC<ConfigurationPageProps> = props => {
                 </DashboardCard.Content>
               </DashboardCard>
             </Box>
-          )}
+          )} */}
         </Box>
       </DetailPageLayout.Content>
     </DetailPageLayout>

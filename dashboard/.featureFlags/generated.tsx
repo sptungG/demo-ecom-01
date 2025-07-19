@@ -14,7 +14,7 @@ const discounts_rules = () => (<><p><img src={H49693} alt="Discount rules"/></p>
 Set up conditions and channels that must be fulfilled to apply defined reward.</p>
 </>)
 const extensions = () => (<><p><img src={X08229} alt="Extensions"/></p>
-<p>We are standardizing the extensibility model in Saleor by consolidating plugins, webhooks, and apps under a unified concept: extensions. For now, this change is reflected only in the user interface, providing a simplified and more cohesive way to manage extensions.</p>
+<p>We are standardizing the extensibility model by consolidating plugins, webhooks, and apps under a unified concept: extensions. For now, this change is reflected only in the user interface, providing a simplified and more cohesive way to manage extensions.</p>
 </>)
 const improved_refunds = () => (<><p><img src={U90067} alt="Improved refunds"/></p>
 <h3 id="enable-the-enhanced-refund-feature-to-streamline-your-refund-process">Enable the enhanced refund feature to streamline your refund process:</h3>

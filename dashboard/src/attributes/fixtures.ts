@@ -279,9 +279,9 @@ export const attributes: Array<
             __typename: "AttributeValue" as const,
             file: null,
             id: "UHJvZHVjdEF0dHJpYnV0ZVZhbHVlOjY=",
-            name: "Saleor",
+            name: "Ad",
             reference: null,
-            slug: "saleor",
+            slug: "ad",
 
             value: "",
             plainText: null,
@@ -905,9 +905,9 @@ export const attributes: Array<
             __typename: "AttributeValue" as const,
             file: null,
             id: "UHJvZHVjdEF0dHJpYnV0ZVZhbHVlOjI3",
-            name: "Saleor Publishing",
+            name: "Ad Publishing",
             reference: null,
-            slug: "saleor-publishing",
+            slug: "ad-publishing",
 
             value: "",
             plainText: null,

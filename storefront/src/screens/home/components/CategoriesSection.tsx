@@ -5,8 +5,23 @@ interface Category {
 	id: string;
 	name: string;
 	slug: string;
-	image: string;
-	productCount: number;
+	parent?: {
+		id: string;
+		name: string;
+	};
+	level: number;
+	updatedAt: string;
+	children?: {
+		totalCount: number;
+	};
+	description?: string;
+	backgroundImage?: {
+		url: string;
+		alt?: string;
+	};
+	products?: {
+		totalCount: number;
+	};
 }
 
 interface CategoriesSectionProps {

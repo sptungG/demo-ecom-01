@@ -217,52 +217,52 @@ export function useMenuStructure() {
       url: customerListUrl(),
       type: !isEmpty(extensions.NAVIGATION_CUSTOMERS) ? "itemGroup" : "item",
     },
-    // {
-    //   children: [
-    //     {
-    //       label: intl.formatMessage(sectionNames.promotions),
-    //       id: "promotions",
-    //       url: saleListUrl(),
-    //       type: "item",
-    //     },
-    //     {
-    //       label: intl.formatMessage(sectionNames.vouchers),
-    //       id: "vouchers",
-    //       url: voucherListUrl(),
-    //       type: "item",
-    //     },
-    //     ...mapToExtensionsItems(
-    //       extensions.NAVIGATION_DISCOUNTS,
-    //       appExtensionsHeaderItem,
-    //       showExtensions,
-    //     ),
-    //   ],
-    //   icon: renderIcon(<DiscountsIcon />),
-    //   label: intl.formatMessage(commonMessages.discounts),
-    //   permissions: [PermissionEnum.MANAGE_DISCOUNTS],
-    //   url: saleListUrl(),
-    //   id: "discounts",
-    //   type: "itemGroup",
-    // },
     {
       children: [
         {
-          label: intl.formatMessage(sectionNames.models),
-          id: "models",
-          url: pageListPath,
-          permissions: [PermissionEnum.MANAGE_PAGES],
+          label: intl.formatMessage(sectionNames.promotions),
+          id: "promotions",
+          url: saleListUrl(),
           type: "item",
         },
         {
-          label: intl.formatMessage(sectionNames.modelTypes),
-          id: "model-types",
-          url: pageTypeListUrl(),
-          permissions: [
-            PermissionEnum.MANAGE_PAGES,
-            PermissionEnum.MANAGE_PAGE_TYPES_AND_ATTRIBUTES,
-          ],
+          label: intl.formatMessage(sectionNames.vouchers),
+          id: "vouchers",
+          url: voucherListUrl(),
           type: "item",
         },
+        ...mapToExtensionsItems(
+          extensions.NAVIGATION_DISCOUNTS,
+          appExtensionsHeaderItem,
+          showExtensions,
+        ),
+      ],
+      icon: renderIcon(<DiscountsIcon />),
+      label: intl.formatMessage(commonMessages.discounts),
+      permissions: [PermissionEnum.MANAGE_DISCOUNTS],
+      url: saleListUrl(),
+      id: "discounts",
+      type: "itemGroup",
+    },
+    {
+      children: [
+        // {
+        //   label: intl.formatMessage(sectionNames.models),
+        //   id: "models",
+        //   url: pageListPath,
+        //   permissions: [PermissionEnum.MANAGE_PAGES],
+        //   type: "item",
+        // },
+        // {
+        //   label: intl.formatMessage(sectionNames.modelTypes),
+        //   id: "model-types",
+        //   url: pageTypeListUrl(),
+        //   permissions: [
+        //     PermissionEnum.MANAGE_PAGES,
+        //     PermissionEnum.MANAGE_PAGE_TYPES_AND_ATTRIBUTES,
+        //   ],
+        //   type: "item",
+        // },
         {
           label: intl.formatMessage(sectionNames.structures),
           id: "structures",
