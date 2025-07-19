@@ -43,9 +43,7 @@ export async function generateMetadata(
 		title: `${product.name} | ${product.seoTitle || (await parent).title?.absolute}`,
 		description: product.seoDescription || productNameAndVariant,
 		alternates: {
-			canonical: process.env.NEXT_PUBLIC_STOREFRONT_URL
-				? process.env.NEXT_PUBLIC_STOREFRONT_URL + `/products/${encodeURIComponent(params.slug)}`
-				: undefined,
+			canonical: undefined,
 		},
 		openGraph: product.thumbnail
 			? {
@@ -170,6 +168,12 @@ export default async function Page(props: {
 
 	return (
 		<section className="mx-auto grid max-w-7xl p-8">
+			{process.env.NEXT_PUBLIC_STOREFRONT_URL && (
+				<link
+					rel="canonical"
+					href={`${process.env.NEXT_PUBLIC_STOREFRONT_URL}/products/${encodeURIComponent(params.slug)}`}
+				/>
+			)}
 			<script
 				type="application/ld+json"
 				dangerouslySetInnerHTML={{
