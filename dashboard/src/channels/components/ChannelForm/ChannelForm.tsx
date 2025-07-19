@@ -194,7 +194,7 @@ export const ChannelForm: React.FC<ChannelFormProps> = ({
             __height={12.5}
           />
         </Box>
-        <MarkAsPaid
+        {/* <MarkAsPaid
           isChecked={data.markAsPaidStrategy === MarkAsPaidStrategyEnum.TRANSACTION_FLOW}
           onCheckedChange={onMarkAsPaidStrategyChange}
           hasError={!!formErrors.markAsPaidStrategy}
@@ -216,7 +216,7 @@ export const ChannelForm: React.FC<ChannelFormProps> = ({
           hasError={!!formErrors.defaultTransactionFlowStrategy}
           disabled={disabled}
         />
-        <Box />
+        <Box /> */}
         <AutomaticallyCompleteCheckouts
           onChange={onAutomaticallyCompleteCheckoutsChange}
           hasError={!!formErrors.automaticallyCompleteCheckouts}
