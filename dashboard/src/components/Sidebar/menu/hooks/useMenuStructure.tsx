@@ -217,33 +217,33 @@ export function useMenuStructure() {
       url: customerListUrl(),
       type: !isEmpty(extensions.NAVIGATION_CUSTOMERS) ? "itemGroup" : "item",
     },
-    // {
-    //   children: [
-    //     {
-    //       label: intl.formatMessage(sectionNames.promotions),
-    //       id: "promotions",
-    //       url: saleListUrl(),
-    //       type: "item",
-    //     },
-    //     {
-    //       label: intl.formatMessage(sectionNames.vouchers),
-    //       id: "vouchers",
-    //       url: voucherListUrl(),
-    //       type: "item",
-    //     },
-    //     ...mapToExtensionsItems(
-    //       extensions.NAVIGATION_DISCOUNTS,
-    //       appExtensionsHeaderItem,
-    //       showExtensions,
-    //     ),
-    //   ],
-    //   icon: renderIcon(<DiscountsIcon />),
-    //   label: intl.formatMessage(commonMessages.discounts),
-    //   permissions: [PermissionEnum.MANAGE_DISCOUNTS],
-    //   url: saleListUrl(),
-    //   id: "discounts",
-    //   type: "itemGroup",
-    // },
+    {
+      children: [
+        {
+          label: intl.formatMessage(sectionNames.promotions),
+          id: "promotions",
+          url: saleListUrl(),
+          type: "item",
+        },
+        {
+          label: intl.formatMessage(sectionNames.vouchers),
+          id: "vouchers",
+          url: voucherListUrl(),
+          type: "item",
+        },
+        ...mapToExtensionsItems(
+          extensions.NAVIGATION_DISCOUNTS,
+          appExtensionsHeaderItem,
+          showExtensions,
+        ),
+      ],
+      icon: renderIcon(<DiscountsIcon />),
+      label: intl.formatMessage(commonMessages.discounts),
+      permissions: [PermissionEnum.MANAGE_DISCOUNTS],
+      url: saleListUrl(),
+      id: "discounts",
+      type: "itemGroup",
+    },
     {
       children: [
         // {

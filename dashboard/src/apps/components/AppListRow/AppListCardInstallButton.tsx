@@ -20,8 +20,8 @@ export const AppListCardInstallButton = ({ installHandler }: AppListCardInstallB
     return (
       <ButtonWithTooltip
         variant="primary"
-        disabled
-        tooltip={intl.formatMessage(buttonMessages.noPermission)}
+        // disabled
+        // tooltip={intl.formatMessage(buttonMessages.noPermission)}
       >
         <FormattedMessage {...buttonMessages.install} />
       </ButtonWithTooltip>
@@ -39,10 +39,10 @@ export const AppListCardInstallButton = ({ installHandler }: AppListCardInstallB
   return (
     <span tabIndex={0}>
       <ButtonWithTooltip
-        tooltip={intl.formatMessage(messages.installationCloudOnly)}
+        // tooltip={intl.formatMessage(messages.installationCloudOnly)}
+        // disabled
         onClick={installHandler}
         data-test-id="app-install-button"
-        disabled
       >
         <FormattedMessage {...buttonMessages.install} />
       </ButtonWithTooltip>
