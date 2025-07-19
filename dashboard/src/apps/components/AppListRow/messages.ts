@@ -17,7 +17,7 @@ export const messages = defineMessages({
     description: "information",
   },
   installationCloudOnly: {
-    defaultMessage: "Use Saleor Cloud to access Saleor Apps",
+    defaultMessage: "",
     description: "description",
     id: "IEpmGQ",
   },

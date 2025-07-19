@@ -213,12 +213,12 @@ const Routes: React.FC = () => {
                   path="/discounts"
                   component={DiscountSection}
                 /> */}
-                <SectionRoute
+                {/* <SectionRoute
                   permissions={[PermissionEnum.MANAGE_PAGES]}
                   path={pageListPath}
                   component={PageSection}
-                />
-                <SectionRoute
+                /> */}
+                {/* <SectionRoute
                   permissions={[
                     PermissionEnum.MANAGE_PAGES,
                     PermissionEnum.MANAGE_PAGE_TYPES_AND_ATTRIBUTES,
@@ -226,12 +226,12 @@ const Routes: React.FC = () => {
                   path={modelTypesPath}
                   component={PageTypesSection}
                   matchPermission="any"
-                />
-                <SectionRoute
+                /> */}
+                {/* <SectionRoute
                   permissions={[PermissionEnum.MANAGE_PLUGINS]}
                   path="/plugins"
                   component={PluginsSection}
-                />
+                /> */}
                 <SectionRoute
                   permissions={[PermissionEnum.MANAGE_ORDERS]}
                   path="/orders"

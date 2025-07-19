@@ -60,7 +60,7 @@ export const CommunityLiveUpdate = ({
         <>
           <Paragraph>
             <FormattedMessage
-              defaultMessage="Tune in for live updates with product news, tips, and how teams are building with Saleor."
+              defaultMessage="Tune in for live updates with product news, tips, and how teams are building."
               id="FcC842"
             />
           </Paragraph>
@@ -114,7 +114,7 @@ export const getTilesData = ({
     content: (
       <Paragraph>
         <FormattedMessage
-          defaultMessage="Save hours of evaluating Saleor on your own by speaking with our solution engineer."
+          defaultMessage="Save hours of evaluating on your own by speaking with our solution engineer."
           id="RABrGb"
         />
       </Paragraph>
