@@ -1,7 +1,7 @@
 import edjsHTML from "editorjs-html";
 import { revalidatePath } from "next/cache";
 import { notFound } from "next/navigation";
-import { type ResolvingMetadata, type Metadata } from "next";
+import { type Metadata } from "next";
 import xss from "xss";
 import { invariant } from "ts-invariant";
 import { type WithContext, type Product } from "schema-dts";
@@ -14,17 +14,41 @@ import { CheckoutAddLineDocument, ProductDetailsDocument, ProductListDocument } 
 import * as Checkout from "@/lib/checkout";
 import { AvailabilityMessage } from "@/ui/components/AvailabilityMessage";
 
-export async function generateMetadata(
-	{ params }: { params: { slug: string; channel: string } },
-	parent: ResolvingMetadata,
-): Promise<Metadata> {
-	// Remove the dynamic data fetching here
-	const productName = decodeURIComponent(params.slug); // Use slug as fallback name
+export async function generateMetadata(props: {
+	params: Promise<{ slug: string; channel: string }>;
+	searchParams: Promise<{ variant?: string }>;
+}): Promise<Metadata> {
+	const [searchParams, params] = await Promise.all([props.searchParams, props.params]);
+
+	const { product } = await executeGraphQL(ProductDetailsDocument, {
+		variables: {
+			slug: decodeURIComponent(params.slug),
+			channel: params.channel,
+		},
+		revalidate: 60,
+	});
+
+	if (!product) {
+		notFound();
+	}
+
+	const productName = product.seoTitle || product.name;
+	const variantName = product.variants?.find(({ id }) => id === searchParams.variant)?.name;
+	const productNameAndVariant = variantName ? `${productName} - ${variantName}` : productName;
 
 	return {
-		title: `${productName} | ${(await parent).title?.absolute}`,
-		description: productName,
-		openGraph: null, // Remove dynamic image loading
+		title: `${product.name} | ${product.seoTitle}`,
+		description: product.seoDescription || productNameAndVariant,
+		openGraph: product.thumbnail
+			? {
+					images: [
+						{
+							url: product.thumbnail.url,
+							alt: product.name,
+						},
+					],
+				}
+			: null,
 	};
 }
 
