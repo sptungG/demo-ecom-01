@@ -15,43 +15,16 @@ import * as Checkout from "@/lib/checkout";
 import { AvailabilityMessage } from "@/ui/components/AvailabilityMessage";
 
 export async function generateMetadata(
-	props: {
-		params: Promise<{ slug: string; channel: string }>;
-		searchParams: Promise<{ variant?: string }>;
-	},
+	{ params }: { params: { slug: string; channel: string } },
 	parent: ResolvingMetadata,
 ): Promise<Metadata> {
-	const [searchParams, params] = await Promise.all([props.searchParams, props.params]);
-
-	const { product } = await executeGraphQL(ProductDetailsDocument, {
-		variables: {
-			slug: decodeURIComponent(params.slug),
-			channel: params.channel,
-		},
-		revalidate: 60,
-	});
-
-	if (!product) {
-		notFound();
-	}
-
-	const productName = product.seoTitle || product.name;
-	const variantName = product.variants?.find(({ id }) => id === searchParams.variant)?.name;
-	const productNameAndVariant = variantName ? `${productName} - ${variantName}` : productName;
+	// Remove the dynamic data fetching here
+	const productName = decodeURIComponent(params.slug); // Use slug as fallback name
 
 	return {
-		title: `${product.name} | ${product.seoTitle || (await parent).title?.absolute}`,
-		description: product.seoDescription || productNameAndVariant,
-		openGraph: product.thumbnail
-			? {
-					images: [
-						{
-							url: product.thumbnail.url,
-							alt: product.name,
-						},
-					],
-				}
-			: null,
+		title: `${productName} | ${(await parent).title?.absolute}`,
+		description: productName,
+		openGraph: null, // Remove dynamic image loading
 	};
 }
 
