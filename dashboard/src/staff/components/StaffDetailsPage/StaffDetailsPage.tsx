@@ -83,7 +83,7 @@ const StaffDetailsPage: React.FC<StaffDetailsPageProps> = ({
   const permissionGroups = getMemberPermissionGroups(staffMember);
 
   const staffListBackLink = useBackLinkWithState({
-    path: staffListPath,
+    path: "/",
   });
 
   const initialForm: StaffDetailsFormData = {
