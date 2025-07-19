@@ -46,7 +46,7 @@ const Component = () => {
     <>
       <WindowTitle title={intl.formatMessage(sectionNames.staff)} />
       <Switch>
-        <Route exact path={staffListPath} component={StaffList} />
+        <Route exact path={staffListPath} render={() => <></>} />
         <Route path={staffMemberDetailsPath(":id")} component={StaffDetails} />
       </Switch>
     </>

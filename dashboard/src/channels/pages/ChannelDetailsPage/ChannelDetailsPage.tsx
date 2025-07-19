@@ -291,7 +291,7 @@ const ChannelDetailsPage = function <TErrors extends ChannelErrorFragment[]>({
                   PermissionEnum.MANAGE_PRODUCTS,
                 ]}
               >
-                <Warehouses
+                {/* <Warehouses
                   warehousesChoices={getFilteredWarehousesChoices(data.warehousesToDisplay)}
                   warehouses={data.warehousesToDisplay}
                   addWarehouse={addWarehouse}
@@ -301,10 +301,10 @@ const ChannelDetailsPage = function <TErrors extends ChannelErrorFragment[]>({
                   totalCount={allWarehousesCount}
                   reorderWarehouses={reorderWarehouse}
                   loading={disabled}
-                />
+                /> */}
                 <CardSpacer />
               </RequirePermissions>
-              <ChannelAllocationStrategy data={data} disabled={disabled} onChange={change} />
+              {/* <ChannelAllocationStrategy data={data} disabled={disabled} onChange={change} /> */}
             </DetailPageLayout.RightSidebar>
             <Savebar>
               <Savebar.DeleteButton onClick={onDelete} />
