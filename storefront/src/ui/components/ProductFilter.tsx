@@ -76,7 +76,6 @@ export function ProductFilter({
 		const clearedFilters = {
 			search: "",
 			categories: [],
-			priceRange: "",
 			sortBy: "NAME",
 			stockAvailability: undefined,
 		};
@@ -130,7 +129,6 @@ export function ProductFilter({
 								className="w-full rounded-lg border border-gray-300 py-2.5 pl-10 pr-4 transition-all focus:border-transparent focus:ring-2 focus:ring-blue-500"
 							/>
 						</div>
-
 						{/* Sort Dropdown */}
 						<div className="relative">
 							<button
@@ -167,7 +165,6 @@ export function ProductFilter({
 								</div>
 							)}
 						</div>
-
 						{/* Categories Dropdown */}
 						<div className="relative">
 							<button
@@ -217,57 +214,54 @@ export function ProductFilter({
 								</div>
 							)}
 						</div>
-
-						{/* Price Range Dropdown */}
-						<div className="relative">
-							<button
-								onClick={() => toggleDropdown("price")}
-								className="flex min-w-[140px] items-center justify-between gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 transition-colors hover:border-gray-400"
-							>
-								<span className="truncate text-sm font-medium text-gray-700">
-									{selectedPriceRange?.label || "Khoảng giá"}
-								</span>
-								<ChevronDown
-									className={`h-4 w-4 text-gray-500 transition-transform ${
-										openDropdowns.price ? "rotate-180" : ""
-									}`}
+						{/* Price Range Input Fields */}
+						<div className="flex items-center gap-2">
+							<div className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2.5">
+								<span className="text-sm font-medium text-gray-700">Giá:</span>
+								<input
+									type="number"
+									placeholder="From"
+									value={filters.price?.gte || ""}
+									onChange={(e) => {
+										const value = e.target.value ? Number(e.target.value) : undefined;
+										updateFilters({
+											price: { ...filters.price, gte: value },
+											priceRange: "", // Clear preset range when custom input is used
+										});
+									}}
+									className="w-20 border-0 bg-transparent text-sm focus:outline-none focus:ring-0"
+									min="0"
 								/>
-							</button>
-							{openDropdowns.price && (
-								<div className="absolute left-0 top-full z-50 mt-1 w-full rounded-lg border border-gray-200 bg-white shadow-lg">
-									<div className="py-1">
-										<button
-											onClick={() => {
-												updateFilters({ priceRange: "" });
-												setOpenDropdowns({});
-											}}
-											className={`w-full px-4 py-2 text-left text-sm transition-colors hover:bg-gray-50 ${
-												!filters.priceRange ? "bg-blue-50 font-medium text-blue-700" : "text-gray-700"
-											}`}
-										>
-											Tất cả
-										</button>
-										{priceRanges.map((range) => (
-											<button
-												key={range.id}
-												onClick={() => {
-													updateFilters({ priceRange: range.id });
-													setOpenDropdowns({});
-												}}
-												className={`w-full px-4 py-2 text-left text-sm transition-colors hover:bg-gray-50 ${
-													filters.priceRange === range.id
-														? "bg-blue-50 font-medium text-blue-700"
-														: "text-gray-700"
-												}`}
-											>
-												{range.label}
-											</button>
-										))}
-									</div>
-								</div>
-							)}
+								<span className="text-gray-400">-</span>
+								<input
+									type="number"
+									placeholder="To"
+									value={filters.price?.lte || ""}
+									onChange={(e) => {
+										const value = e.target.value ? Number(e.target.value) : undefined;
+										updateFilters({
+											price: { ...filters.price, lte: value },
+											priceRange: "", // Clear preset range when custom input is used
+										});
+									}}
+									className="w-20 border-0 bg-transparent text-sm focus:outline-none focus:ring-0"
+									min="0"
+								/>
+								<span className="text-sm text-gray-500">₫</span>
+							</div>
 						</div>
-
+						{(filters.price?.gte || filters.price?.lte) && (
+							<span className="inline-flex items-center gap-1 rounded-full bg-purple-100 px-3 py-1 text-xs font-medium text-purple-800">
+								{filters.price?.gte ? `${filters.price.gte.toLocaleString()}` : "0"} -{" "}
+								{filters.price?.lte ? `${filters.price.lte.toLocaleString()}` : "∞"}
+								<button
+									onClick={() => updateFilters({ price: undefined })}
+									className="rounded-full p-0.5 hover:bg-purple-200"
+								>
+									<X className="h-3 w-3" />
+								</button>
+							</span>
+						)}
 						{/* Stock Availability Dropdown */}
 						<div className="relative">
 							<button
@@ -317,7 +311,6 @@ export function ProductFilter({
 								</div>
 							)}
 						</div>
-
 						{/* Clear Filters */}
 						{activeFiltersCount > 0 && (
 							<button
@@ -488,6 +481,43 @@ export function ProductFilter({
 						)}
 					</div>
 
+					{/* Price Range Input Fields */}
+					<div className="flex items-center gap-2">
+						<div className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2.5">
+							<span className="text-sm font-medium text-gray-700">Giá:</span>
+							<input
+								type="number"
+								placeholder="Từ"
+								value={filters.price?.gte || ""}
+								onChange={(e) => {
+									const value = e.target.value ? Number(e.target.value) : undefined;
+									updateFilters({
+										price: { ...filters.price, gte: value },
+										priceRange: "", // Clear preset range when custom input is used
+									});
+								}}
+								className="w-20 border-0 bg-transparent text-sm focus:outline-none focus:ring-0"
+								min="0"
+							/>
+							<span className="text-gray-400">-</span>
+							<input
+								type="number"
+								placeholder="Đến"
+								value={filters.price?.lte || ""}
+								onChange={(e) => {
+									const value = e.target.value ? Number(e.target.value) : undefined;
+									updateFilters({
+										price: { ...filters.price, lte: value },
+										priceRange: "", // Clear preset range when custom input is used
+									});
+								}}
+								className="w-20 border-0 bg-transparent text-sm focus:outline-none focus:ring-0"
+								min="0"
+							/>
+							<span className="text-sm text-gray-500">₫</span>
+						</div>
+					</div>
+
 					{/* Price Range */}
 					<div>
 						<button
@@ -500,20 +530,66 @@ export function ProductFilter({
 							/>
 						</button>
 						{openSections.price && (
-							<div className="space-y-2">
-								{priceRanges.map((range) => (
-									<label key={range.id} className="flex cursor-pointer items-center gap-2">
+							<div className="space-y-3">
+								{/* Custom Price Input */}
+								<div className="space-y-2">
+									<label className="text-sm font-medium text-gray-700">Nhập khoảng giá tùy chỉnh:</label>
+									<div className="flex items-center gap-2">
 										<input
-											type="radio"
-											name="priceRange"
-											value={range.id}
-											checked={filters.priceRange === range.id}
-											onChange={(e) => updateFilters({ priceRange: e.target.value })}
-											className="text-blue-600 focus:ring-blue-500"
+											type="number"
+											placeholder="Từ"
+											value={filters.price?.gte || ""}
+											onChange={(e) => {
+												const value = e.target.value ? Number(e.target.value) : undefined;
+												updateFilters({
+													price: { ...filters.price, gte: value },
+													priceRange: "", // Clear preset range when custom input is used
+												});
+											}}
+											className="flex-1 rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+											min="0"
 										/>
-										<span className="text-sm text-gray-700">{range.label}</span>
-									</label>
-								))}
+										<span className="text-gray-400">-</span>
+										<input
+											type="number"
+											placeholder="Đến"
+											value={filters.price?.lte || ""}
+											onChange={(e) => {
+												const value = e.target.value ? Number(e.target.value) : undefined;
+												updateFilters({
+													price: { ...filters.price, lte: value },
+													priceRange: "", // Clear preset range when custom input is used
+												});
+											}}
+											className="flex-1 rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+											min="0"
+										/>
+									</div>
+									<div className="text-xs text-gray-500">Đơn vị: VNĐ</div>
+								</div>
+
+								{/* Preset Price Ranges */}
+								<div className="space-y-2">
+									<label className="text-sm font-medium text-gray-700">Hoặc chọn khoảng giá có sẵn:</label>
+									{priceRanges.map((range) => (
+										<label key={range.id} className="flex cursor-pointer items-center gap-2">
+											<input
+												type="radio"
+												name="priceRange"
+												value={range.id}
+												checked={filters.priceRange === range.id}
+												onChange={(e) => {
+													updateFilters({
+														priceRange: e.target.value,
+														price: undefined, // Clear custom price when preset is selected
+													});
+												}}
+												className="text-blue-600 focus:ring-blue-500"
+											/>
+											<span className="text-sm text-gray-700">{range.label}</span>
+										</label>
+									))}
+								</div>
 							</div>
 						)}
 					</div>

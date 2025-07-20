@@ -14,7 +14,18 @@ export function useProductsSearchParams() {
     const priceRange = searchParams.get('priceRange') || undefined;
     let price: { gte?: number; lte?: number } | undefined;
     
-    if (priceRange) {
+    // Parse custom price inputs
+    const priceMin = searchParams.get('priceMin');
+    const priceMax = searchParams.get('priceMax');
+    
+    if (priceMin || priceMax) {
+      // Custom price inputs take priority
+      price = {
+        ...(priceMin && !isNaN(Number(priceMin)) && { gte: Number(priceMin) }),
+        ...(priceMax && !isNaN(Number(priceMax)) && { lte: Number(priceMax) })
+      };
+    } else if (priceRange) {
+      // Fallback to preset price range
       const [min, max] = priceRange.split('-').map(Number);
       if (!isNaN(min) || !isNaN(max)) {
         price = {
@@ -59,8 +70,16 @@ export function useProductsSearchParams() {
       });
     }
     
-    // Price range
-    if (filters.priceRange) {
+    // Custom price inputs (takes priority over preset ranges)
+    if (filters.price?.gte !== undefined || filters.price?.lte !== undefined) {
+      if (filters.price.gte !== undefined) {
+        params.set('priceMin', filters.price.gte.toString());
+      }
+      if (filters.price.lte !== undefined) {
+        params.set('priceMax', filters.price.lte.toString());
+      }
+    } else if (filters.priceRange) {
+      // Preset price range (only if no custom price)
       params.set('priceRange', filters.priceRange);
     }
     
@@ -94,15 +113,9 @@ export function useProductsSearchParams() {
       filter.categories = currentFilters.categories;
     }
 
-    // Price range parsing from priceRange string
-    if (currentFilters.priceRange) {
-      const [min, max] = currentFilters.priceRange.split('-').map(Number);
-      if (!isNaN(min) || !isNaN(max)) {
-        filter.price = {
-          ...(min && { gte: min }),
-          ...(max && { lte: max })
-        };
-      }
+    // Use price object directly (supports both custom and preset ranges)
+    if (currentFilters.price) {
+      filter.price = currentFilters.price;
     }
 
     // Stock availability

@@ -53,23 +53,24 @@ export default async function Products({ searchParams, params }: ProductsPagePro
 	}
 
 	// Price range
-	if (getSearchParams.priceRange) {
+	if (getSearchParams.priceMin || getSearchParams.priceMax) {
+		// Custom price inputs take priority
+		const minPrice = getSearchParams.priceMin ? Number(getSearchParams.priceMin) : undefined;
+		const maxPrice = getSearchParams.priceMax ? Number(getSearchParams.priceMax) : undefined;
+
+		if ((minPrice && !isNaN(minPrice)) || (maxPrice && !isNaN(maxPrice))) {
+			filter.price = {
+				...(minPrice && !isNaN(minPrice) && { gte: minPrice }),
+				...(maxPrice && !isNaN(maxPrice) && { lte: maxPrice }),
+			};
+		}
+	} else if (getSearchParams.priceRange) {
+		// Fallback to preset price range
 		const [min, max] = (getSearchParams.priceRange as string).split("-").map(Number);
 		if (!isNaN(min) || !isNaN(max)) {
 			filter.price = {
-				...(min && { gte: min }),
-				...(max && { lte: max }),
-			};
-		}
-	}
-
-	// Minimal price range
-	if (getSearchParams.minimalPriceRange) {
-		const [min, max] = (getSearchParams.minimalPriceRange as string).split("-").map(Number);
-		if (!isNaN(min) || !isNaN(max)) {
-			filter.minimalPrice = {
-				...(min && { gte: min }),
-				...(max && { lte: max }),
+				...(min && !isNaN(min) && { gte: min }),
+				...(max && !isNaN(max) && { lte: max }),
 			};
 		}
 	}
