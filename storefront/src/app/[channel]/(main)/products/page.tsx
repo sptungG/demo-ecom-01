@@ -1,7 +1,8 @@
 import { ProductsPerPage } from "@/app/config";
-import { ProductListPaginatedDocument } from "@/gql/graphql";
+import { ProductListPaginatedDocument, StockAvailability } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/graphql";
 import ProductsPage from "@/screens/products/ProductsPage";
+import { FilterState } from "@/ui/components/ProductFilter";
 
 interface ProductsPageProps {
 	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -12,7 +13,6 @@ export default async function Products({ searchParams, params }: ProductsPagePro
 	const getSearchParams = await searchParams;
 	const getParams = await params;
 	const channel = process.env.NEXT_PUBLIC_SALEOR_CHANNEL ?? "";
-	console.log("🚀 ~ Products ~ getSearchParams:", getSearchParams);
 
 	// Parse search params to create GraphQL filter
 	const filter: any = {};
@@ -147,6 +147,30 @@ export default async function Products({ searchParams, params }: ProductsPagePro
 	// Pagination
 	const cursor = getSearchParams.cursor as string;
 
+	// Create initial filters for UI
+	const initialFilters: FilterState = {
+		search: getSearchParams.search as string || "",
+		categories: Array.isArray(getSearchParams.category)
+			? getSearchParams.category
+			: getSearchParams.category
+				? [getSearchParams.category]
+				: [],
+		sortBy: (getSearchParams.sortBy as string) || "NAME",
+		stockAvailability: getSearchParams.stockAvailability as StockAvailability,
+		priceRange: getSearchParams.priceRange as string,
+		price: (() => {
+			if (getSearchParams.priceMin || getSearchParams.priceMax) {
+				const minPrice = getSearchParams.priceMin ? Number(getSearchParams.priceMin) : undefined;
+				const maxPrice = getSearchParams.priceMax ? Number(getSearchParams.priceMax) : undefined;
+				return {
+					...(minPrice && !isNaN(minPrice) && { gte: minPrice }),
+					...(maxPrice && !isNaN(maxPrice) && { lte: maxPrice }),
+				};
+			}
+			return undefined;
+		})()
+	};
+
 	try {
 		const result = await executeGraphQL(ProductListPaginatedDocument, {
 			variables: {
@@ -168,6 +192,7 @@ export default async function Products({ searchParams, params }: ProductsPagePro
 				initialHasNextPage={pageInfo?.hasNextPage || false}
 				initialCursor={pageInfo?.endCursor || null}
 				initialTotalCount={totalCount}
+				initialFilters={initialFilters}
 				channel={channel}
 			/>
 		);
@@ -179,6 +204,7 @@ export default async function Products({ searchParams, params }: ProductsPagePro
 				initialHasNextPage={false}
 				initialCursor={null}
 				initialTotalCount={0}
+				initialFilters={initialFilters}
 				channel={channel}
 			/>
 		);

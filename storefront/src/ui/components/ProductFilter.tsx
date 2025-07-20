@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChevronDown, X, Search, SlidersHorizontal } from "lucide-react";
 import { ProductFilterInput, StockAvailability } from "@/gql/graphql";
+import { useDebounce } from "@/hooks/useDebounce";
 
 interface FilterOption {
 	id: string;
@@ -12,6 +13,7 @@ interface ProductFilterProps {
 	categories: FilterOption[];
 	priceRanges: FilterOption[];
 	sortOptions: FilterOption[];
+	initialFilters?: FilterState;
 	onFilterChange: (filters: FilterState) => void;
 	onSearch: (query: string) => void;
 }
@@ -33,13 +35,41 @@ export function ProductFilter({
 	categories,
 	priceRanges,
 	sortOptions,
+	initialFilters = {},
 	onFilterChange,
 	onSearch,
 }: ProductFilterProps) {
+	// Khởi tạo filters từ initialFilters hoặc giá trị mặc định
 	const [filters, setFilters] = useState<FilterState>({
-		search: "",
-		categories: [],
+		search: initialFilters.search || "",
+		categories: initialFilters.categories || [],
+		sortBy: initialFilters.sortBy || "NAME",
+		stockAvailability: initialFilters.stockAvailability,
+		priceRange: initialFilters.priceRange,
+		price: initialFilters.price,
 	});
+	const debounceFilter = useDebounce(filters, 1000);
+	const firstRender = useRef(true);
+
+	// Cập nhật filters khi initialFilters thay đổi
+	useEffect(() => {
+		if (initialFilters && Object.keys(initialFilters).length > 0) {
+			setFilters({
+				search: initialFilters.search || "",
+				categories: initialFilters.categories || [],
+				sortBy: initialFilters.sortBy || "NAME",
+				stockAvailability: initialFilters.stockAvailability,
+				priceRange: initialFilters.priceRange,
+				price: initialFilters.price,
+			});
+			firstRender.current = false;
+		}
+	}, []);
+	useEffect(() => {
+		if (!firstRender.current && JSON.stringify(initialFilters) !== JSON.stringify(debounceFilter)) {
+			onFilterChange(debounceFilter);
+		}
+	}, [debounceFilter, initialFilters]);
 
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
 	const [openDropdowns, setOpenDropdowns] = useState<Record<string, boolean>>({});
@@ -57,7 +87,6 @@ export function ProductFilter({
 	const updateFilters = (newFilters: Partial<FilterState>) => {
 		const updatedFilters = { ...filters, ...newFilters };
 		setFilters(updatedFilters);
-		onFilterChange(updatedFilters);
 	};
 
 	const handleSearch = (query: string) => {
@@ -80,7 +109,6 @@ export function ProductFilter({
 			stockAvailability: undefined,
 		};
 		setFilters(clearedFilters);
-		onFilterChange(clearedFilters);
 	};
 
 	const activeFiltersCount =

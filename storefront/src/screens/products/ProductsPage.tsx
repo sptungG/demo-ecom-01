@@ -15,6 +15,7 @@ interface ProductsPageProps {
 	initialCursor?: string | null;
 	initialHasNextPage?: boolean;
 	initialTotalCount?: number;
+	initialFilters?: FilterState;
 	loading?: boolean;
 }
 
@@ -24,6 +25,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({
 	initialCursor = null,
 	initialHasNextPage = false,
 	initialTotalCount = 0,
+	initialFilters = {},
 	loading: serverLoading = false,
 }) => {
 	const {
@@ -133,6 +135,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({
 									categories={filterData.categories}
 									priceRanges={filterData.priceRanges}
 									sortOptions={filterData.sortOptions}
+									initialFilters={initialFilters}
 									onFilterChange={handleFilterChange}
 									onSearch={handleSearch}
 								/>
