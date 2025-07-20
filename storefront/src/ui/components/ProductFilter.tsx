@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { ChevronDown, X, Search, SlidersHorizontal } from "lucide-react";
-import { ProductFilterInput, StockAvailability } from "@/gql/graphql";
+import { StockAvailability } from "@/gql/graphql";
 import { useDebounce } from "@/hooks/useDebounce";
 
 interface FilterOption {
@@ -361,7 +361,7 @@ export function ProductFilter({
 
 							{filters.search && (
 								<span className="inline-flex items-center gap-1 rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-800">
-									\"{filters.search}\"
+									{`\"`}{filters.search}{`\"`}
 									<button onClick={() => handleSearch("")} className="rounded-full p-0.5 hover:bg-blue-200">
 										<X className="h-3 w-3" />
 									</button>

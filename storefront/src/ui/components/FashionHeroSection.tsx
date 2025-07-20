@@ -18,7 +18,7 @@ const fashionCategories: FashionCategory[] = [
 	{ count: "10+", label: "Accessories", icon: "👜" },
 ];
 
-const CategoryCard: React.FC<FashionCategory> = ({ count, label, icon }) => (
+const CategoryCard: React.FC<FashionCategory> = ({ count, label }) => (
 	<div className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white/90 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-gray-200 hover:bg-white hover:shadow-xl">
 		<div className="absolute inset-0 bg-gradient-to-br from-blue-50/20 via-transparent to-purple-50/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 		<div className="relative text-center">
@@ -56,8 +56,8 @@ const FashionHeroSection: React.FC<FashionHeroSectionProps> = ({ className = "" 
 					{/* Headline */}
 					<h1 className="text-4xl font-light tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
 						<span className="block font-extralight text-gray-600">Trendy and</span>
-						<span className="block leading-tight font-medium text-gray-900">Comfortable</span>
-						<span className="leading-tight block bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 bg-clip-text font-semibold text-transparent">
+						<span className="block font-medium leading-tight text-gray-900">Comfortable</span>
+						<span className="block bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 bg-clip-text font-semibold leading-tight text-transparent">
 							Clothing Collection
 						</span>
 					</h1>
@@ -69,7 +69,7 @@ const FashionHeroSection: React.FC<FashionHeroSectionProps> = ({ className = "" 
 						to your lifestyle.
 					</p>
 				</div>
-				<hr className="my-8"/>
+				<hr className="my-8" />
 				{/* Categories */}
 				<div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
 					{fashionCategories.map((category, index) => (

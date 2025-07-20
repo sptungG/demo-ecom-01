@@ -10,7 +10,7 @@ import { useProductsSearchParams } from "@/hooks/useProductsSearchParams";
 import ProductCardSkeleton from "@/ui/components/ProductCardSkeleton";
 
 interface ProductsPageProps {
-	channel: string;
+	channel?: string;
 	initialProducts?: ProductListItemFragment[];
 	initialCursor?: string | null;
 	initialHasNextPage?: boolean;
@@ -20,7 +20,6 @@ interface ProductsPageProps {
 }
 
 const ProductsPage: React.FC<ProductsPageProps> = ({
-	channel = "",
 	initialProducts = [],
 	initialCursor = null,
 	initialHasNextPage = false,
@@ -28,14 +27,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({
 	initialFilters = {},
 	loading: serverLoading = false,
 }) => {
-	const {
-		currentFilters,
-		currentPage,
-		cursor,
-		updateFilters,
-		updatePagination,
-		loadMore: loadMoreUrl,
-	} = useProductsSearchParams();
+	const { currentFilters, updateFilters, loadMore: loadMoreUrl } = useProductsSearchParams();
 
 	const [products, setProducts] = useState<ProductListItemFragment[]>(initialProducts);
 	const [hasNextPage, setHasNextPage] = useState(initialHasNextPage);
