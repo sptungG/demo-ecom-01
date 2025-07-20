@@ -56,8 +56,8 @@ const FashionHeroSection: React.FC<FashionHeroSectionProps> = ({ className = "" 
 					{/* Headline */}
 					<h1 className="text-4xl font-light tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
 						<span className="block font-extralight text-gray-600">Trendy and</span>
-						<span className="block font-medium text-gray-900">Comfortable</span>
-						<span className="block bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 bg-clip-text font-semibold text-transparent">
+						<span className="block leading-tight font-medium text-gray-900">Comfortable</span>
+						<span className="leading-tight block bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 bg-clip-text font-semibold text-transparent">
 							Clothing Collection
 						</span>
 					</h1>
