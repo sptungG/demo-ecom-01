@@ -84,6 +84,7 @@ import TranslationsSection from "./translations";
 import WarehouseSection from "./warehouses";
 import { warehouseSection } from "./warehouses/urls";
 import { WelcomePage } from "./welcomePage";
+import { extensionsSection } from "./extensions/urls";
 
 if (GTM_ID) {
   TagManager.initialize({ gtmId: GTM_ID });
@@ -203,22 +204,22 @@ const Routes: React.FC = () => {
                   path="/customers"
                   component={CustomerSection}
                 />
-                {/* <SectionRoute
+                <SectionRoute
                   permissions={[PermissionEnum.MANAGE_GIFT_CARD]}
                   path={giftCardsSectionUrlName}
                   component={GiftCardSection}
-                /> */}
-                {/* <SectionRoute
+                />
+                <SectionRoute
                   permissions={[PermissionEnum.MANAGE_DISCOUNTS]}
                   path="/discounts"
                   component={DiscountSection}
-                /> */}
-                {/* <SectionRoute
+                />
+                <SectionRoute
                   permissions={[PermissionEnum.MANAGE_PAGES]}
                   path={pageListPath}
                   component={PageSection}
-                /> */}
-                {/* <SectionRoute
+                />
+                <SectionRoute
                   permissions={[
                     PermissionEnum.MANAGE_PAGES,
                     PermissionEnum.MANAGE_PAGE_TYPES_AND_ATTRIBUTES,
@@ -226,12 +227,12 @@ const Routes: React.FC = () => {
                   path={modelTypesPath}
                   component={PageTypesSection}
                   matchPermission="any"
-                /> */}
-                {/* <SectionRoute
+                />
+                <SectionRoute
                   permissions={[PermissionEnum.MANAGE_PLUGINS]}
                   path="/plugins"
                   component={PluginsSection}
-                /> */}
+                />
                 <SectionRoute
                   permissions={[PermissionEnum.MANAGE_ORDERS]}
                   path="/orders"
@@ -288,11 +289,11 @@ const Routes: React.FC = () => {
                   path={AppSections.appsSection}
                   component={AppsSectionRoot}
                 />
-                {/* <SectionRoute
+                <SectionRoute
                   permissions={[]}
                   path={extensionsSection}
                   component={ExtensionsSection}
-                /> */}
+                />
                 <SectionRoute
                   permissions={[PermissionEnum.MANAGE_PRODUCTS]}
                   path={warehouseSection}

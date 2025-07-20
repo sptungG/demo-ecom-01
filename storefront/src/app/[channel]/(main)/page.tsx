@@ -1,6 +1,6 @@
 import { ProductListByCollectionDocument } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/graphql";
-import { ProductList } from "@/ui/components/ProductList";
+import HomePage from "@/screens/home/HomePage";
 
 export const metadata = {
 	title: "ACME Storefront",
@@ -20,19 +20,15 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 	if (!data.collection?.products) {
 		return null;
 	}
+	// const { categories } = await executeGraphQL(CategoryListDocument, {
+	// 	variables: {
+	// 		first: 100,
+	// 		after: null,
+	// 	},
+	// 	revalidate: 60,
+	// });
 
 	const products = data.collection?.products.edges.map(({ node: product }) => product);
-
-	return (
-		<section className="mx-auto max-w-7xl p-8 pb-16">
-			<h2 className="sr-only">Product list</h2>
-			<div className="f">
-				<div className="flex flex-col">
-					<h3 className="text-6xl font-[600]">Up to 50% off!</h3>
-					<p className="text-xl">{`Don't miss out on some very special items at extraordinary sale prices. For a limited time!`}</p>
-				</div>
-			</div>
-			<ProductList products={products} />
-		</section>
-	);
+	// const getCategories = categories?.edges?.map(({ node: category }) => category);
+	return <HomePage products={products} categories={[]} />;
 }

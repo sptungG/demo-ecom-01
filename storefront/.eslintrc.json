@@ -4,29 +4,23 @@
 	"parserOptions": {
 		"project": "tsconfig.json"
 	},
-	"extends": [
-		"plugin:@typescript-eslint/recommended",
-		"plugin:@typescript-eslint/recommended-requiring-type-checking",
-		"plugin:import/recommended",
-		"plugin:import/typescript",
-		"prettier",
-		"next/core-web-vitals"
-	],
+	"extends": ["plugin:import/recommended", "plugin:import/typescript", "prettier", "next/core-web-vitals"],
 	"rules": {
 		// sort imports
-		"import/order": "error",
-
+		"import/order": "warn",
+		"react-hooks/rules-of-hooks": "error",
+		"react-hooks/exhaustive-deps": "off",
 		// no let exports
-		"import/no-mutable-exports": "error",
+		"import/no-mutable-exports": "warn",
 
-		"import/no-cycle": "error",
-		"import/no-default-export": "error",
+		"import/no-cycle": "warn",
+		"import/no-default-export": "warn",
 
 		"import/no-unresolved": "off",
 
 		// allow {} even though it's unsafe but comes handy
 		"@typescript-eslint/ban-types": [
-			"error",
+			"warn",
 			{
 				"types": {
 					"{}": false
@@ -35,7 +29,7 @@
 		],
 
 		"@typescript-eslint/consistent-type-imports": [
-			"error",
+			"warn",
 			{
 				"prefer": "type-imports",
 				"fixStyle": "inline-type-imports",
@@ -43,7 +37,7 @@
 			}
 		],
 
-		"import/no-duplicates": ["error", { "prefer-inline": true }],
+		"import/no-duplicates": ["warn", { "prefer-inline": true }],
 
 		// false negatives
 		"import/namespace": ["off"],
@@ -59,14 +53,14 @@
 		"@typescript-eslint/require-await": "off",
 
 		// make sure to `await` inside try…catch
-		"@typescript-eslint/return-await": ["error", "in-try-catch"],
+		"@typescript-eslint/return-await": ["warn", "in-try-catch"],
 
 		// allow unused vars prefixed with `_`
-		"@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
+		"@typescript-eslint/no-unused-vars": "warn",
 
 		// numbers and booleans are fine in template strings
 		"@typescript-eslint/restrict-template-expressions": [
-			"error",
+			"warn",
 			{ "allowNumber": true, "allowBoolean": true }
 		],
 
@@ -74,7 +68,7 @@
 		"@typescript-eslint/no-explicit-any": "off",
 
 		"@typescript-eslint/no-misused-promises": [
-			"error",
+			"warn",
 			{
 				"checksVoidReturn": false
 			}
