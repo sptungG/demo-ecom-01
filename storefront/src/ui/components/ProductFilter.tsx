@@ -194,7 +194,7 @@ export function ProductFilter({
 							)}
 						</div>
 						{/* Categories Dropdown */}
-						<div className="relative">
+						{/* <div className="relative">
 							<button
 								onClick={() => toggleDropdown("categories")}
 								className="flex min-w-[140px] items-center justify-between gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 transition-colors hover:border-gray-400"
@@ -241,7 +241,7 @@ export function ProductFilter({
 									</div>
 								</div>
 							)}
-						</div>
+						</div> */}
 						{/* Price Range Input Fields */}
 						<div className="flex items-center gap-2">
 							<div className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2.5">
