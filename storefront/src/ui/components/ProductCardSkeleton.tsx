@@ -87,5 +87,5 @@ const ProductCardSkeleton = ({ viewMode = "grid" }: ProductCardSkeletonProps) =>
 		</div>
 	);
 };
-ProductCardSkeleton.name = "ProductCardSkeleton";
+
 export default ProductCardSkeleton;
