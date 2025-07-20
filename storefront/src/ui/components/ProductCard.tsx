@@ -115,7 +115,7 @@ export function ProductCard({ product, loading = "lazy", priority, onAddToCart }
             <p className="font-bold text-gray-900">
               {formatMoneyRange({
                 start: product?.pricing?.priceRange?.start?.gross,
-                stop: product?.pricing?.priceRange?.stop?.gross,
+                stop: product?.pricing?.priceRange?.stop?.gross ?? product?.pricing?.priceRange?.start?.gross,
               })}
             </p>
             

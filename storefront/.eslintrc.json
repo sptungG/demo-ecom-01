@@ -8,7 +8,8 @@
 	"rules": {
 		// sort imports
 		"import/order": "warn",
-
+		"react-hooks/rules-of-hooks": "error",
+		"react-hooks/exhaustive-deps": "off",
 		// no let exports
 		"import/no-mutable-exports": "warn",
 
