@@ -142,7 +142,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({
 						{/* Main Content */}
 						<div className="lg:col-span-3">
 							{/* Header with view mode toggle */}
-							<div className="mb-6 flex items-center justify-between rounded-t-lg bg-white p-4">
+							<div className="flex items-center justify-between rounded-t-lg bg-white p-4 py-0">
 								<div className="flex items-center gap-4">
 									<span className="text-sm text-gray-600">
 										Hiển thị {isFilterLoading ? "..." : products.length} /{" "}
@@ -181,7 +181,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({
 							</div>
 
 							{/* Products Grid */}
-							<div className="rounded-b-lg bg-white p-6">
+							<div className="rounded-b-lg bg-white p-4">
 								{/* Hiển thị skeleton khi đang loading filter hoặc server loading và không có sản phẩm */}
 								{isFilterLoading || (serverLoading && products.length === 0) ? (
 									<div
