@@ -9,7 +9,7 @@ interface ProductDetailTabsProps {
 	selectedVariant?: NonNullable<ProductDetailsQuery["product"]>["variants"] extends (infer T)[] ? T : never;
 }
 
-const ProductDetailTabs: React.FC<ProductDetailTabsProps> = ({ product, selectedVariant }) => {
+const ProductDetailTabs = ({ product, selectedVariant }: ProductDetailTabsProps) => {
 	const [activeTab, setActiveTab] = useState("description");
 	const tabs = [
 		{ id: "description", label: "Mô tả sản phẩm" },
@@ -62,8 +62,8 @@ const DescriptionTab: React.FC<{ product: NonNullable<ProductDetailsQuery["produ
 		<div className="prose max-w-none">
 			<div className="leading-relaxed text-gray-700">
 				{product.description ? (
-					((htmlBlocks as any[]) ?? [])?.map((html) => {
-						return <div dangerouslySetInnerHTML={{ __html: html }} />;
+					((htmlBlocks as any[]) ?? [])?.map((html, idx) => {
+						return <div dangerouslySetInnerHTML={{ __html: html }} key={idx} />;
 					})
 				) : (
 					<p>Chưa có mô tả cho sản phẩm này.</p>
