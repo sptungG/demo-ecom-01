@@ -3,24 +3,13 @@ import React, { useState } from "react";
 import { ProductDetailsQuery } from "@/gql/graphql";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
-import {
-	Heart,
-	Share2,
-	ShoppingCart,
-	Star,
-	Truck,
-	Shield,
-	RotateCcw,
-	Plus,
-	Minus,
-	AlertCircle,
-	CheckCircle,
-} from "lucide-react";
+import { Heart, ShoppingCart, Star, Truck, Shield, RotateCcw, Plus, Minus } from "lucide-react";
 import ProductDetailTabs from "./components/ProductDetailTabs";
 import RelatedProductsCarousel from "./components/RelatedProductsCarousel";
+import ShareButton from "./components/ShareButton";
 import type { ProductListItemFragment } from "@/gql/graphql";
 import { useRouter } from "next/navigation";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { toast } from "sonner";
 import {
 	Carousel,
 	CarouselContent,
@@ -29,6 +18,7 @@ import {
 	CarouselPrevious,
 } from "@/components/ui/carousel";
 import Link from "next/link";
+import { Toaster } from "@/components/ui/sonner";
 
 interface ProductDetailProps {
 	product: ProductDetailsQuery["product"];
@@ -41,13 +31,6 @@ interface ProductDetailProps {
 		alt: string;
 	};
 }
-
-type AlertType = {
-	type: "success" | "error" | "warning";
-	title: string;
-	message: string;
-	show: boolean;
-};
 
 const ProductDetail: React.FC<ProductDetailProps> = ({
 	product,
@@ -62,45 +45,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 	const [isFavorite, setIsFavorite] = useState(false);
 	const [isAddingToCart, setIsAddingToCart] = useState(false);
 	const [selectedImage, setSelectedImage] = useState(currentImage ?? {});
-	const [alert, setAlert] = useState<AlertType>({
-		type: "success",
-		title: "",
-		message: "",
-		show: false,
-	});
 	const router = useRouter();
-
-	// Show alert function
-	const showAlert = (type: "success" | "error" | "warning", title: string, message: string) => {
-		setAlert({ type, title, message, show: true });
-		// Auto hide alert after 5 seconds
-		setTimeout(() => {
-			setAlert((prev) => ({ ...prev, show: false }));
-		}, 5000);
-	};
-
-	// Copy product link function
-	const handleCopyLink = async () => {
-		try {
-			const currentUrl = window.location.href;
-			await navigator.clipboard.writeText(currentUrl);
-			showAlert("success", "Link Copied!", "Product link has been copied to clipboard");
-		} catch (error) {
-			console.error("Failed to copy link:", error);
-			// Fallback for older browsers
-			try {
-				const textArea = document.createElement("textarea");
-				textArea.value = window.location.href;
-				document.body.appendChild(textArea);
-				textArea.select();
-				document.execCommand("copy");
-				document.body.removeChild(textArea);
-				showAlert("success", "Link Copied!", "Product link has been copied to clipboard");
-			} catch (fallbackError) {
-				showAlert("error", "Copy Failed", "Unable to copy link. Please copy manually from address bar");
-			}
-		}
-	};
 
 	if (!product) {
 		return (
@@ -112,6 +57,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 			</div>
 		);
 	}
+
 	const handleVariantChange = (variant: any) => {
 		setSelectedVariant(variant);
 		// Reset selected image index when variant changes
@@ -124,21 +70,26 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 
 	const handleAddToCart = async () => {
 		if (!selectedVariant?.id) {
-			showAlert(
-				"warning",
-				"No variant selected",
-				"Please select a product variant before adding to cart",
-			);
+			toast.warning("No variant selected", {
+				description: "Please select a product variant before adding to cart",
+				duration: 3000,
+			});
 			return;
 		}
 
 		setIsAddingToCart(true);
 		try {
 			await addItemAction(selectedVariant.id, quantity);
-			showAlert("success", "Success!", `Added ${quantity} product(s) to cart`);
+			toast.success("Success!", {
+				description: `Added ${quantity} product(s) to cart`,
+				duration: 3000,
+			});
 		} catch (error) {
 			console.error("Error adding to cart:", error);
-			showAlert("error", "An error occurred", "Unable to add product to cart. Please try again");
+			toast.error("An error occurred", {
+				description: "Unable to add product to cart. Please try again",
+				duration: 4000,
+			});
 		} finally {
 			setIsAddingToCart(false);
 		}
@@ -146,7 +97,10 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 
 	const handleBuyNow = async () => {
 		if (!selectedVariant?.id) {
-			showAlert("warning", "No variant selected", "Please select a product variant before purchasing");
+			toast.warning("No variant selected", {
+				description: "Please select a product variant before purchasing",
+				duration: 3000,
+			});
 			return;
 		}
 
@@ -157,7 +111,10 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 			router.push(`/${channel}/cart`);
 		} catch (error) {
 			console.error("Error during buy now:", error);
-			showAlert("error", "An error occurred", "Unable to complete purchase. Please try again");
+			toast.error("An error occurred", {
+				description: "Unable to complete purchase. Please try again",
+				duration: 4000,
+			});
 		} finally {
 			setIsAddingToCart(false);
 		}
@@ -165,25 +122,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 
 	return (
 		<div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-			{/* Alert Component */}
-			{alert.show && (
-				<div className="mb-6">
-					<Alert
-						variant={alert.type === "error" ? "destructive" : "default"}
-						className={`
-							${alert.type === "success" ? "border-green-500 bg-green-50 text-green-800" : ""}
-							${alert.type === "warning" ? "border-yellow-500 bg-yellow-50 text-yellow-800" : ""}
-						`}
-					>
-						{alert.type === "success" && <CheckCircle className="h-4 w-4" />}
-						{alert.type === "error" && <AlertCircle className="h-4 w-4" />}
-						{alert.type === "warning" && <AlertCircle className="h-4 w-4" />}
-						<AlertTitle>{alert.title}</AlertTitle>
-						<AlertDescription>{alert.message}</AlertDescription>
-					</Alert>
-				</div>
-			)}
-
+			<Toaster />
 			<div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
 				{/* Product Images Gallery */}
 				<div className="space-y-4">
@@ -378,13 +317,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 							>
 								<Heart className={`h-5 w-5 ${isFavorite ? "fill-current" : ""}`} />
 							</button>
-							<button 
-								onClick={handleCopyLink}
-								className="rounded-lg border border-gray-300 p-3 transition-colors hover:border-gray-400 hover:bg-gray-50"
-								title="Copy product link"
-							>
-								<Share2 className="h-5 w-5" />
-							</button>
+							<ShareButton />
 						</div>
 
 						<button
