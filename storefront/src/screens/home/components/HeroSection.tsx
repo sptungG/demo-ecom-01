@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { LinkWithChannel } from "@/ui/atoms/LinkWithChannel";
+import { ArrowRight } from "lucide-react";
 
 export const HeroSection = () => {
 	return (
@@ -10,8 +11,8 @@ export const HeroSection = () => {
 					<div>
 						<h1 className="text-4xl font-bold tracking-tight sm:text-6xl">Discover Amazing Products</h1>
 						<p className="mt-6 text-lg leading-8 text-neutral-300">
-							Shop the latest trends and find everything you need in one place. Quality products,
-							competitive prices, and exceptional service.
+							Shop the latest trends and find everything you need in one place. Quality products, competitive
+							prices, and exceptional service.
 						</p>
 						<div className="mt-10 flex items-center gap-x-6">
 							<LinkWithChannel
@@ -28,15 +29,33 @@ export const HeroSection = () => {
 							</LinkWithChannel>
 						</div>
 					</div>
+
+					{/* Hero Image with decorative circles */}
 					<div className="relative">
-						<Image
-							src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=400&fit=crop"
-							alt="Hero Image"
-							width={600}
-							height={400}
-							className="rounded-lg shadow-2xl"
-							priority
-						/>
+						{/* Decorative circles behind the image */}
+						<div className="absolute inset-0 flex items-center justify-center">
+							{/* Large circle behind the image */}
+							<div className="absolute h-80 w-80 rounded-full border border-white/10 bg-white/5"></div>
+
+							{/* Smaller decorative circles */}
+							<div className="bg-white/3 absolute left-8 top-8 h-16 w-16 rounded-full border border-white/5"></div>
+							<div className="bg-white/2 absolute left-4 top-16 h-8 w-8 rounded-full border border-white/5"></div>
+							<div className="bg-white/4 border-white/8 absolute right-12 top-4 h-12 w-12 rounded-full border"></div>
+							<div className="bg-white/3 border-white/6 absolute bottom-8 right-8 h-10 w-10 rounded-full border"></div>
+							<div className="bg-white/2 border-white/4 absolute bottom-16 left-12 h-6 w-6 rounded-full border"></div>
+						</div>
+
+						{/* Main image */}
+						<div className="relative z-10">
+							<Image
+								src="/girl-banner-2.png"
+								alt="Hero Image"
+								width={600}
+								height={400}
+								priority
+								// className="rounded-lg shadow-lg"
+							/>
+						</div>
 					</div>
 				</div>
 			</div>
