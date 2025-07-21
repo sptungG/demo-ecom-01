@@ -1,6 +1,6 @@
 import React from "react";
 import { LinkWithChannel } from "@/ui/atoms/LinkWithChannel";
-import { TrendingUp, Sparkles } from "lucide-react";
+import { TrendingUp } from "lucide-react";
 
 export const TrendingSection = () => {
 	const trendingItems = [
@@ -40,7 +40,7 @@ export const TrendingSection = () => {
 				<div className="mb-12 text-center">
 					<h2 className="text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">Trending Now</h2>
 					<p className="mt-4 text-lg text-neutral-600">
-						Discover what's hot this season and stay ahead of the fashion curve
+						{"Discover what's hot this season and stay ahead of the fashion curve"}
 					</p>
 				</div>
 

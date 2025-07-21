@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import { LinkWithChannel } from "@/ui/atoms/LinkWithChannel";
-import { ArrowRight } from "lucide-react";
 
 export const HeroSection = () => {
 	return (
