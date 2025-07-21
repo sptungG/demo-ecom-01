@@ -63,7 +63,7 @@ export const BrandShowcaseSection = () => {
 					</div>
 					<h2 className="text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">Featured Brands</h2>
 					<p className="mt-4 text-lg text-neutral-600">
-						Shop from the world's most trusted and popular fashion brands
+						{`${"Shop from the world's most trusted and popular fashion brands"}`}
 					</p>
 				</div>
 

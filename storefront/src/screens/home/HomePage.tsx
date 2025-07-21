@@ -4,10 +4,7 @@ import { HeroSection } from "./components/HeroSection";
 import { NewsletterSection } from "./components/NewsletterSection";
 import { PromotionalBanner } from "./components/PromotionalBanner";
 import { TrendingSection } from "./components/TrendingSection";
-import { BrandShowcaseSection } from "./components/BrandShowcaseSection";
 import { InstagramFeedSection } from "./components/InstagramFeedSection";
-import { TestimonialsSection } from "./components/TestimonialsSection";
-import { SeasonalCollectionSection } from "./components/SeasonalCollectionSection";
 import type { ProductListItemFragment } from "@/gql/graphql";
 
 const HomePage = ({ products }: { products: readonly ProductListItemFragment[]; categories?: any[] }) => {

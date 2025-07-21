@@ -12,10 +12,10 @@ interface ProductDetailTabsProps {
 const ProductDetailTabs = ({ product, selectedVariant }: ProductDetailTabsProps) => {
 	const [activeTab, setActiveTab] = useState("description");
 	const tabs = [
-		{ id: "description", label: "Mô tả sản phẩm" },
-		{ id: "specifications", label: "Thông số kỹ thuật" },
-		{ id: "reviews", label: "Đánh giá (128)" },
-		{ id: "shipping", label: "Vận chuyển & Đổi trả" },
+		{ id: "description", label: "Product Description" },
+		{ id: "specifications", label: "Specifications" },
+		{ id: "reviews", label: "Reviews (128)" },
+		{ id: "shipping", label: "Shipping & Returns" },
 	];
 
 	return (
@@ -66,7 +66,7 @@ const DescriptionTab: React.FC<{ product: NonNullable<ProductDetailsQuery["produ
 						return <div dangerouslySetInnerHTML={{ __html: html }} key={idx} />;
 					})
 				) : (
-					<p>Chưa có mô tả cho sản phẩm này.</p>
+					<p>No description available for this product.</p>
 				)}
 			</div>
 		</div>
@@ -81,41 +81,41 @@ const SpecificationsTab: React.FC<{
 	return (
 		<div className="grid grid-cols-1 gap-6 md:grid-cols-2">
 			<div className="space-y-4">
-				<h3 className="text-lg font-semibold">Thông tin cơ bản</h3>
+				<h3 className="text-lg font-semibold">Basic Information</h3>
 				<div className="space-y-2">
 					<div className="flex justify-between border-b border-gray-100 py-2">
-						<span className="text-gray-600">Tên sản phẩm:</span>
+						<span className="text-gray-600">Product Name:</span>
 						<span className="font-medium">{product.name}</span>
 					</div>
 					<div className="flex justify-between border-b border-gray-100 py-2">
-						<span className="text-gray-600">Danh mục:</span>
-						<span className="font-medium">{product.category?.name || "Chưa phân loại"}</span>
+						<span className="text-gray-600">Category:</span>
+						<span className="font-medium">{product.category?.name || "Uncategorized"}</span>
 					</div>
 					<div className="flex justify-between border-b border-gray-100 py-2">
 						<span className="text-gray-600">SKU:</span>
 						<span className="font-medium">{product.id.slice(-8)}</span>
 					</div>
 					<div className="flex justify-between border-b border-gray-100 py-2">
-						<span className="text-gray-600">Số lượng có sẵn:</span>
+						<span className="text-gray-600">Available Quantity:</span>
 						<span className="font-medium">{(selectedVariant as any)?.quantityAvailable ?? 0}</span>
 					</div>
 				</div>
 			</div>
 
 			<div className="space-y-4">
-				<h3 className="text-lg font-semibold">Thông tin bổ sung</h3>
+				<h3 className="text-lg font-semibold">Additional Information</h3>
 				<div className="space-y-2">
 					<div className="flex justify-between border-b border-gray-100 py-2">
-						<span className="text-gray-600">Thương hiệu:</span>
+						<span className="text-gray-600">Brand:</span>
 						<span className="font-medium">Demo Brand</span>
 					</div>
 					<div className="flex justify-between border-b border-gray-100 py-2">
-						<span className="text-gray-600">Xuất xứ:</span>
-						<span className="font-medium">Việt Nam</span>
+						<span className="text-gray-600">Origin:</span>
+						<span className="font-medium">Vietnam</span>
 					</div>
 					<div className="flex justify-between border-b border-gray-100 py-2">
-						<span className="text-gray-600">Bảo hành:</span>
-						<span className="font-medium">12 tháng</span>
+						<span className="text-gray-600">Warranty:</span>
+						<span className="font-medium">12 months</span>
 					</div>
 				</div>
 			</div>
@@ -126,9 +126,9 @@ const SpecificationsTab: React.FC<{
 const ReviewsTab: React.FC = () => (
 	<div className="space-y-6">
 		<div className="flex items-center justify-between">
-			<h3 className="text-lg font-semibold">Đánh giá khách hàng</h3>
+			<h3 className="text-lg font-semibold">Customer Reviews</h3>
 			<button className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700">
-				Viết đánh giá
+				Write Review
 			</button>
 		</div>
 
@@ -143,13 +143,13 @@ const ReviewsTab: React.FC = () => (
 						/>
 					))}
 				</div>
-				<div className="mt-1 text-sm text-gray-600">128 đánh giá</div>
+				<div className="mt-1 text-sm text-gray-600">128 reviews</div>
 			</div>
 
 			<div className="space-y-2 md:col-span-2">
 				{[5, 4, 3, 2, 1].map((rating) => (
 					<div key={rating} className="flex items-center space-x-3">
-						<span className="w-8 text-sm">{rating} sao</span>
+						<span className="w-8 text-sm">{rating} star</span>
 						<div className="h-2 flex-1 rounded-full bg-gray-200">
 							<div
 								className="h-2 rounded-full bg-yellow-400"
@@ -173,7 +173,7 @@ const ReviewsTab: React.FC = () => (
 						<div className="flex items-center space-x-3">
 							<div className="h-8 w-8 rounded-full bg-gray-300"></div>
 							<div>
-								<div className="font-medium">Khách hàng {review}</div>
+								<div className="font-medium">Customer {review}</div>
 								<div className="flex items-center">
 									{[1, 2, 3, 4, 5].map((star) => (
 										<Star
@@ -184,11 +184,10 @@ const ReviewsTab: React.FC = () => (
 								</div>
 							</div>
 						</div>
-						<span className="text-sm text-gray-500">2 ngày trước</span>
+						<span className="text-sm text-gray-500">2 days ago</span>
 					</div>
 					<p className="text-gray-700">
-						Sản phẩm chất lượng tốt, đúng như mô tả. Giao hàng nhanh, đóng gói cẩn thận. Sẽ ủng hộ shop lần
-						sau.
+						Great product quality, exactly as described. Fast delivery, carefully packaged. Will support the shop again.
 					</p>
 				</div>
 			))}
@@ -200,22 +199,22 @@ const ReviewsTab: React.FC = () => (
 const ShippingTab: React.FC = () => (
 	<div className="grid grid-cols-1 gap-8 md:grid-cols-2">
 		<div>
-			<h3 className="mb-4 text-lg font-semibold">Chính sách vận chuyển</h3>
+			<h3 className="mb-4 text-lg font-semibold">Shipping Policy</h3>
 			<div className="space-y-3 text-gray-700">
-				<p>• Miễn phí vận chuyển cho đơn hàng từ 500.000đ</p>
-				<p>• Giao hàng trong 1-3 ngày làm việc</p>
-				<p>• Hỗ trợ giao hàng toàn quốc</p>
-				<p>• Đóng gói cẩn thận, bảo đảm hàng nguyên vẹn</p>
+				<p>• Free shipping for orders over $50</p>
+				<p>• Delivery within 1-3 business days</p>
+				<p>• Nationwide shipping support</p>
+				<p>• Careful packaging, guaranteed intact delivery</p>
 			</div>
 		</div>
 
 		<div>
-			<h3 className="mb-4 text-lg font-semibold">Chính sách đổi trả</h3>
+			<h3 className="mb-4 text-lg font-semibold">Return Policy</h3>
 			<div className="space-y-3 text-gray-700">
-				<p>• Đổi trả miễn phí trong 30 ngày</p>
-				<p>• Sản phẩm còn nguyên tem, nhãn mác</p>
-				<p>• Hoàn tiền 100% nếu lỗi từ nhà sản xuất</p>
-				<p>• Hỗ trợ đổi size, màu sắc (nếu còn hàng)</p>
+				<p>• Free returns within 30 days</p>
+				<p>• Product must have original tags and labels</p>
+				<p>• 100% refund if manufacturer defect</p>
+				<p>• Support size and color exchange (if available)</p>
 			</div>
 		</div>
 	</div>
