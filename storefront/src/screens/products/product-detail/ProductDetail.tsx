@@ -79,6 +79,29 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 		}, 5000);
 	};
 
+	// Copy product link function
+	const handleCopyLink = async () => {
+		try {
+			const currentUrl = window.location.href;
+			await navigator.clipboard.writeText(currentUrl);
+			showAlert("success", "Link Copied!", "Product link has been copied to clipboard");
+		} catch (error) {
+			console.error("Failed to copy link:", error);
+			// Fallback for older browsers
+			try {
+				const textArea = document.createElement("textarea");
+				textArea.value = window.location.href;
+				document.body.appendChild(textArea);
+				textArea.select();
+				document.execCommand("copy");
+				document.body.removeChild(textArea);
+				showAlert("success", "Link Copied!", "Product link has been copied to clipboard");
+			} catch (fallbackError) {
+				showAlert("error", "Copy Failed", "Unable to copy link. Please copy manually from address bar");
+			}
+		}
+	};
+
 	if (!product) {
 		return (
 			<div className="flex min-h-screen items-center justify-center">
@@ -355,7 +378,11 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 							>
 								<Heart className={`h-5 w-5 ${isFavorite ? "fill-current" : ""}`} />
 							</button>
-							<button className="rounded-lg border border-gray-300 p-3 transition-colors hover:border-gray-400">
+							<button 
+								onClick={handleCopyLink}
+								className="rounded-lg border border-gray-300 p-3 transition-colors hover:border-gray-400 hover:bg-gray-50"
+								title="Copy product link"
+							>
 								<Share2 className="h-5 w-5" />
 							</button>
 						</div>
