@@ -1,0 +1,13 @@
+query RelatedProducts($categoryId: ID!, $channel: String!, $excludeProductId: ID!, $first: Int = 8) {
+	category(id: $categoryId) {
+		id
+		name
+		products(first: $first, channel: $channel, filter: { ids: [$excludeProductId] }) {
+			edges {
+				node {
+					...ProductListItem
+				}
+			}
+		}
+	}
+}

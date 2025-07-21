@@ -1,8 +1,17 @@
 import { notFound } from "next/navigation";
 import { type ResolvingMetadata, type Metadata } from "next";
 import { executeGraphQL } from "@/lib/graphql";
-import { ProductDetailsDocument, ProductListDocument } from "@/gql/graphql";
+import {
+	CheckoutAddLineDocument,
+	ProductDetailsDocument,
+	ProductListDocument,
+	RelatedProductsDocument,
+} from "@/gql/graphql";
 import ProductDetail from "@/screens/products/product-detail/ProductDetail";
+import { revalidatePath } from "next/cache";
+import invariant from "ts-invariant";
+import * as Checkout from "@/lib/checkout";
+import { formatMoney, formatMoneyRange } from "@/lib/utils";
 
 export async function generateMetadata(
 	props: {
@@ -67,7 +76,7 @@ export default async function Page(props: {
 	params: Promise<{ slug: string; channel: string }>;
 	searchParams: Promise<{ variant?: string }>;
 }) {
-	const [, params] = await Promise.all([props.searchParams, props.params]);
+	const [searchParams, params] = await Promise.all([props.searchParams, props.params]);
 	const { product } = await executeGraphQL(ProductDetailsDocument, {
 		variables: {
 			slug: decodeURIComponent(params.slug),
@@ -79,85 +88,66 @@ export default async function Page(props: {
 	if (!product) {
 		notFound();
 	}
-
+	const { category } = await executeGraphQL(RelatedProductsDocument, {
+		variables: {
+			channel: params.channel,
+			excludeProductId: product!.id,
+			categoryId: product!.category?.id as string,
+		},
+		revalidate: 60,
+	});
 	// const firstImage = product.thumbnail;
 	// const description = product?.description ? parser.parse(JSON.parse(product?.description)) : null;
 
-	// const variants = product.variants;
-	// const selectedVariantID = searchParams.variant;
-	// const selectedVariant = variants?.find(({ id }) => id === selectedVariantID);
+	const variants = product.variants;
+	const selectedVariantID = searchParams.variant;
+	const selectedVariant = variants?.find(({ id }) => id === selectedVariantID);
+	const currentImage = selectedVariant?.media?.[0];
 
-	// async function addItem() {
-	// 	"use server";
+	async function addItem(variantId: string, quantity: number = 1) {
+		"use server";
+		const checkout = await Checkout.findOrCreate({
+			checkoutId: await Checkout.getIdFromCookies(params.channel),
+			channel: params.channel,
+		});
+		invariant(checkout, "This should never happen");
 
-	// 	const checkout = await Checkout.findOrCreate({
-	// 		checkoutId: await Checkout.getIdFromCookies(params.channel),
-	// 		channel: params.channel,
-	// 	});
-	// 	invariant(checkout, "This should never happen");
+		await Checkout.saveIdToCookie(params.channel, checkout.id);
 
-	// 	await Checkout.saveIdToCookie(params.channel, checkout.id);
+		if (!variantId) {
+			return;
+		}
 
-	// 	if (!selectedVariantID) {
-	// 		return;
-	// 	}
+		// Add multiple quantities support
+		for (let i = 0; i < quantity; i++) {
+			await executeGraphQL(CheckoutAddLineDocument, {
+				variables: {
+					id: checkout.id,
+					productVariantId: variantId,
+				},
+				cache: "no-cache",
+			});
+		}
 
-	// 	// TODO: error handling
-	// 	await executeGraphQL(CheckoutAddLineDocument, {
-	// 		variables: {
-	// 			id: checkout.id,
-	// 			productVariantId: decodeURIComponent(selectedVariantID),
-	// 		},
-	// 		cache: "no-cache",
-	// 	});
+		revalidatePath("/cart");
+	}
 
-	// 	revalidatePath("/cart");
-	// }
+	const isAvailable = variants?.some((variant) => variant.quantityAvailable) ?? false;
 
-	// const isAvailable = variants?.some((variant) => variant.quantityAvailable) ?? false;
+	const price = selectedVariant?.pricing?.price?.gross
+		? formatMoney(selectedVariant.pricing.price.gross.amount, selectedVariant.pricing.price.gross.currency)
+		: isAvailable
+			? formatMoneyRange({
+					start: product?.pricing?.priceRange?.start?.gross,
+					stop: product?.pricing?.priceRange?.stop?.gross,
+				})
+			: "";
 
-	// const price = selectedVariant?.pricing?.price?.gross
-	// 	? formatMoney(selectedVariant.pricing.price.gross.amount, selectedVariant.pricing.price.gross.currency)
-	// 	: isAvailable
-	// 		? formatMoneyRange({
-	// 				start: product?.pricing?.priceRange?.start?.gross,
-	// 				stop: product?.pricing?.priceRange?.stop?.gross,
-	// 			})
-	// 		: "";
-
-	// const productJsonLd: WithContext<Product> = {
-	// 	"@context": "https://schema.org",
-	// 	"@type": "Product",
-	// 	image: product.thumbnail?.url,
-	// 	...(selectedVariant
-	// 		? {
-	// 				name: `${product.name} - ${selectedVariant.name}`,
-	// 				description: product.seoDescription || `${product.name} - ${selectedVariant.name}`,
-	// 				offers: {
-	// 					"@type": "Offer",
-	// 					availability: selectedVariant.quantityAvailable
-	// 						? "https://schema.org/InStock"
-	// 						: "https://schema.org/OutOfStock",
-	// 					priceCurrency: selectedVariant.pricing?.price?.gross.currency,
-	// 					price: selectedVariant.pricing?.price?.gross.amount,
-	// 				},
-	// 			}
-	// 		: {
-	// 				name: product.name,
-
-	// 				description: product.seoDescription || product.name,
-	// 				offers: {
-	// 					"@type": "AggregateOffer",
-	// 					availability: product.variants?.some((variant) => variant.quantityAvailable)
-	// 						? "https://schema.org/InStock"
-	// 						: "https://schema.org/OutOfStock",
-	// 					priceCurrency: product.pricing?.priceRange?.start?.gross.currency,
-	// 					lowPrice: product.pricing?.priceRange?.start?.gross.amount,
-	// 					highPrice: product.pricing?.priceRange?.stop?.gross.amount,
-	// 				},
-	// 			}),
-	// };
-
+	const relatedProducts = category?.products?.edges
+		?.map(({ node }) => node)
+		.filter((item) => {
+			return item.id !== product.id;
+		});
 	return (
 		// <section className="mx-auto grid max-w-7xl p-8">
 		// 	<script
@@ -210,6 +200,13 @@ export default async function Page(props: {
 		// 		</div>
 		// 	</form>
 		// </section>
-		<ProductDetail product={product} />
+		<ProductDetail
+			currentImage={currentImage as any}
+			price={price as string}
+			product={product}
+			relatedProducts={relatedProducts ?? []}
+			channel={params.channel}
+			addItemAction={addItem}
+		/>
 	);
 }

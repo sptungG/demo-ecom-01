@@ -17,6 +17,7 @@
   "dependencies": {
     "@adyen/adyen-web": "5.53.3",
     "@adyen/api-library": "15.0.0-beta",
+    "@apollo/client": "3.13.8",
     "@headlessui/react": "1.7.18",
     "@radix-ui/react-slot": "1.2.3",
     "@saleor/auth-sdk": "1.0.2",
@@ -28,6 +29,7 @@
     "editorjs-html": "3.4.3",
     "embla-carousel-react": "8.6.0",
     "formik": "2.4.5",
+    "i": "0.3.7",
     "libphonenumber-js": "1.10.58",
     "lodash-es": "4.17.21",
     "lucide-react": "0.358.0",
@@ -36,6 +38,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-error-boundary": "4.0.13",
+    "react-medium-image-zoom": "5.3.0",
     "react-spinners": "0.13.8",
     "react-test-renderer": "18.2.0",
     "react-toastify": "^11.0.0",
