@@ -70,10 +70,10 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 	});
 	const router = useRouter();
 
-	// Hàm hiển thị alert
+	// Show alert function
 	const showAlert = (type: "success" | "error" | "warning", title: string, message: string) => {
 		setAlert({ type, title, message, show: true });
-		// Tự động ẩn alert sau 5 giây
+		// Auto hide alert after 5 seconds
 		setTimeout(() => {
 			setAlert((prev) => ({ ...prev, show: false }));
 		}, 5000);
@@ -83,8 +83,8 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 		return (
 			<div className="flex min-h-screen items-center justify-center">
 				<div className="text-center">
-					<h2 className="mb-2 text-2xl font-semibold text-gray-900">Sản phẩm không tồn tại</h2>
-					<p className="text-gray-600">Sản phẩm bạn đang tìm kiếm không được tìm thấy.</p>
+					<h2 className="mb-2 text-2xl font-semibold text-gray-900">Product not found</h2>
+					<p className="text-gray-600">The product you are looking for was not found.</p>
 				</div>
 			</div>
 		);
@@ -103,8 +103,8 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 		if (!selectedVariant?.id) {
 			showAlert(
 				"warning",
-				"Chưa chọn phiên bản",
-				"Vui lòng chọn phiên bản sản phẩm trước khi thêm vào giỏ hàng",
+				"No variant selected",
+				"Please select a product variant before adding to cart",
 			);
 			return;
 		}
@@ -112,10 +112,10 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 		setIsAddingToCart(true);
 		try {
 			await addItemAction(selectedVariant.id, quantity);
-			showAlert("success", "Thành công!", `Đã thêm ${quantity} sản phẩm vào giỏ hàng`);
+			showAlert("success", "Success!", `Added ${quantity} product(s) to cart`);
 		} catch (error) {
 			console.error("Error adding to cart:", error);
-			showAlert("error", "Có lỗi xảy ra", "Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại");
+			showAlert("error", "An error occurred", "Unable to add product to cart. Please try again");
 		} finally {
 			setIsAddingToCart(false);
 		}
@@ -123,7 +123,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 
 	const handleBuyNow = async () => {
 		if (!selectedVariant?.id) {
-			showAlert("warning", "Chưa chọn phiên bản", "Vui lòng chọn phiên bản sản phẩm trước khi mua");
+			showAlert("warning", "No variant selected", "Please select a product variant before purchasing");
 			return;
 		}
 
@@ -134,7 +134,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 			router.push(`/${channel}/cart`);
 		} catch (error) {
 			console.error("Error during buy now:", error);
-			showAlert("error", "Có lỗi xảy ra", "Không thể thực hiện mua hàng. Vui lòng thử lại");
+			showAlert("error", "An error occurred", "Unable to complete purchase. Please try again");
 		} finally {
 			setIsAddingToCart(false);
 		}
@@ -178,7 +178,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 							</div>
 						) : (
 							<div className="flex h-full w-full items-center justify-center text-gray-400">
-								<span className="text-lg">Không có hình ảnh</span>
+								<span className="text-lg">No image available</span>
 							</div>
 						)}
 					</div>
@@ -208,7 +208,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 											>
 												<img
 													src={image.url}
-													alt={image.alt || `${product.name} - Hình ${index + 1}`}
+													alt={image.alt || `${product.name} - Image ${index + 1}`}
 													className="h-full w-full object-cover"
 												/>
 											</button>
@@ -230,9 +230,9 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 				<div className="space-y-6">
 					{/* Breadcrumb */}
 					<nav className="text-sm text-gray-500">
-						<Link href="/">Trang chủ</Link>
+						<Link href="/">Home</Link>
 						<span className="mx-2">/</span>
-						<Link href={`/${channel}/products`}>Sản phẩm</Link>
+						<Link href={`/${channel}/products`}>Products</Link>
 						{product.category && (
 							<>
 								<span className="mx-2">/</span>
@@ -254,7 +254,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 										className={`h-5 w-5 ${star <= 4 ? "fill-current text-yellow-400" : "text-gray-300"}`}
 									/>
 								))}
-								<span className="ml-2 text-sm text-gray-600">(4.0) • 128 đánh giá</span>
+								<span className="ml-2 text-sm text-gray-600">(4.0) • 128 reviews</span>
 							</div>
 							<span className="text-sm text-gray-500">SKU: {product.id.slice(-8)}</span>
 						</div>
@@ -265,7 +265,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 						<div className="flex items-center space-x-3">
 							<span className="text-3xl font-bold text-red-600">{price}</span>
 						</div>
-						<p className="text-sm text-gray-600">Giá đã bao gồm VAT</p>
+						<p className="text-sm text-gray-600">Price includes VAT</p>
 					</div>
 
 					{/* Stock Status */}
@@ -281,15 +281,15 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 							}`}
 						>
 							{(selectedVariant?.quantityAvailable || 0) > 0
-								? `Còn hàng (${selectedVariant?.quantityAvailable} sản phẩm)`
-								: "Hết hàng"}
+								? `In stock (${selectedVariant?.quantityAvailable} items)`
+								: "Out of stock"}
 						</span>
 					</div>
 
 					{/* Variants */}
 					{product.variants && product.variants.length > 1 && (
 						<div className="space-y-3">
-							<h3 className="text-sm font-medium text-gray-900">Phiên bản:</h3>
+							<h3 className="text-sm font-medium text-gray-900">Variants:</h3>
 							<div className="grid grid-cols-2 gap-2">
 								{product.variants.map((variant) => (
 									<button
@@ -304,7 +304,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 										<div className="font-medium">{variant.name}</div>
 										{variant.pricing?.price?.gross && (
 											<div className="text-sm text-gray-600">
-												{variant.pricing.price.gross.amount.toLocaleString("vi-VN")}{" "}
+												{variant.pricing.price.gross.amount.toLocaleString("en-US")}{" "}
 												{variant.pricing.price.gross.currency}
 											</div>
 										)}
@@ -316,7 +316,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 
 					{/* Quantity Selector */}
 					<div className="space-y-3">
-						<h3 className="text-sm font-medium text-gray-900">Số lượng:</h3>
+						<h3 className="text-sm font-medium text-gray-900">Quantity:</h3>
 						<div className="flex items-center space-x-3">
 							<button
 								onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -343,7 +343,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 								className="flex flex-1 items-center justify-center space-x-2 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
 							>
 								<ShoppingCart className="h-5 w-5" />
-								<span>{isAddingToCart ? "Đang thêm..." : "Thêm vào giỏ hàng"}</span>
+								<span>{isAddingToCart ? "Adding..." : "Add to Cart"}</span>
 							</button>
 							<button
 								onClick={() => setIsFavorite(!isFavorite)}
@@ -365,7 +365,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 							disabled={(selectedVariant?.quantityAvailable || 0) === 0 || isAddingToCart}
 							className="w-full rounded-lg bg-red-600 px-6 py-3 font-medium text-white transition-colors hover:bg-red-700 disabled:cursor-not-allowed disabled:bg-gray-300"
 						>
-							{isAddingToCart ? "Đang xử lý..." : "Mua ngay"}
+							{isAddingToCart ? "Processing..." : "Buy Now"}
 						</button>
 					</div>
 
@@ -374,22 +374,22 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 						<div className="flex items-center space-x-3">
 							<Truck className="h-6 w-6 text-blue-600" />
 							<div>
-								<div className="text-sm font-medium">Miễn phí vận chuyển</div>
-								<div className="text-xs text-gray-600">Đơn hàng từ 500k</div>
+								<div className="text-sm font-medium">Free Shipping</div>
+								<div className="text-xs text-gray-600">Orders over $50</div>
 							</div>
 						</div>
 						<div className="flex items-center space-x-3">
 							<Shield className="h-6 w-6 text-green-600" />
 							<div>
-								<div className="text-sm font-medium">Bảo hành 12 tháng</div>
-								<div className="text-xs text-gray-600">Chính hãng 100%</div>
+								<div className="text-sm font-medium">12 Month Warranty</div>
+								<div className="text-xs text-gray-600">100% Authentic</div>
 							</div>
 						</div>
 						<div className="flex items-center space-x-3">
 							<RotateCcw className="h-6 w-6 text-orange-600" />
 							<div>
-								<div className="text-sm font-medium">Đổi trả 30 ngày</div>
-								<div className="text-xs text-gray-600">Miễn phí đổi trả</div>
+								<div className="text-sm font-medium">30 Day Returns</div>
+								<div className="text-xs text-gray-600">Free returns</div>
 							</div>
 						</div>
 					</div>
@@ -401,7 +401,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 
 			{/* Related Products Carousel */}
 			<div className="mt-4 border-t border-gray-200 pt-4">
-				<RelatedProductsCarousel products={relatedProducts ?? []} title="Sản phẩm liên quan" />
+				<RelatedProductsCarousel products={relatedProducts ?? []} title="Related Products" />
 			</div>
 		</div>
 	);
