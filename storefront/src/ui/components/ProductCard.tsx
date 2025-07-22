@@ -74,7 +74,7 @@ export function ProductCard({ product, loading = "lazy", priority, onAddToCart }
               className="w-full bg-gray-900 text-white py-2 px-4 rounded-lg font-medium hover:bg-gray-800 transition-colors duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <ShoppingCart className="w-4 h-4" />
-              {isAddingToCart ? 'Đang thêm...' : 'Thêm vào giỏ'}
+              {isAddingToCart ? 'Adding...' : 'Add to Cart'}
             </button>
           </div>
 
@@ -126,7 +126,7 @@ export function ProductCard({ product, loading = "lazy", priority, onAddToCart }
               className="hidden sm:flex items-center gap-1 bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-md text-sm font-medium transition-colors duration-200 disabled:opacity-50"
             >
               <ShoppingCart className="w-3 h-3" />
-              {isAddingToCart ? '...' : 'Thêm'}
+              {isAddingToCart ? '...' : 'Add'}
             </button>
           </div>
         </LinkWithChannel>

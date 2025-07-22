@@ -119,8 +119,8 @@ export function ProductFilter({
 
 	// Stock availability options
 	const stockOptions = [
-		{ id: StockAvailability.InStock, label: "Còn hàng" },
-		{ id: StockAvailability.OutOfStock, label: "Hết hàng" },
+		{ id: StockAvailability.InStock, label: "In stock" },
+		{ id: StockAvailability.OutOfStock, label: "Out of stock" },
 	];
 	const selectedStock = stockOptions.find((stock) => stock.id === filters.stockAvailability);
 
@@ -151,7 +151,7 @@ export function ProductFilter({
 							<Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
 							<input
 								type="text"
-								placeholder="Tìm kiếm sản phẩm..."
+								placeholder="Search products..."
 								value={filters.search}
 								onChange={(e) => handleSearch(e.target.value)}
 								className="w-full rounded-lg border border-gray-300 py-2.5 pl-10 pr-4 transition-all focus:border-transparent focus:ring-2 focus:ring-blue-500"
@@ -245,7 +245,7 @@ export function ProductFilter({
 						{/* Price Range Input Fields */}
 						<div className="flex items-center gap-2">
 							<div className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2.5">
-								<span className="text-sm font-medium text-gray-700">Giá:</span>
+								<span className="text-sm font-medium text-gray-700">Price:</span>
 								<input
 									type="number"
 									placeholder="From"
@@ -275,7 +275,6 @@ export function ProductFilter({
 									className="w-20 border-0 bg-transparent text-sm focus:outline-none focus:ring-0"
 									min="0"
 								/>
-								<span className="text-sm text-gray-500">₫</span>
 							</div>
 						</div>
 						{(filters.price?.gte || filters.price?.lte) && (
@@ -297,7 +296,7 @@ export function ProductFilter({
 								className="flex min-w-[140px] items-center justify-between gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 transition-colors hover:border-gray-400"
 							>
 								<span className="truncate text-sm font-medium text-gray-700">
-									{selectedStock?.label || "Tình trạng"}
+									{selectedStock?.label || "Status"}
 								</span>
 								<ChevronDown
 									className={`h-4 w-4 text-gray-500 transition-transform ${
@@ -317,7 +316,7 @@ export function ProductFilter({
 												!filters.stockAvailability ? "bg-blue-50 font-medium text-blue-700" : "text-gray-700"
 											}`}
 										>
-											Tất cả
+											All
 										</button>
 										{stockOptions.map((option) => (
 											<button
@@ -346,7 +345,7 @@ export function ProductFilter({
 								className="flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium text-red-600 transition-colors hover:bg-red-50 hover:text-red-700"
 							>
 								<X className="h-4 w-4" />
-								Xóa bộ lọc
+								Clear filter
 							</button>
 						)}
 					</div>
@@ -424,7 +423,7 @@ export function ProductFilter({
 						<Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
 						<input
 							type="text"
-							placeholder="Tìm kiếm sản phẩm..."
+							placeholder="Search products..."
 							value={filters.search}
 							onChange={(e) => handleSearch(e.target.value)}
 							className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 focus:border-transparent focus:ring-2 focus:ring-blue-500"
@@ -512,10 +511,10 @@ export function ProductFilter({
 					{/* Price Range Input Fields */}
 					<div className="flex items-center gap-2">
 						<div className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2.5">
-							<span className="text-sm font-medium text-gray-700">Giá:</span>
+							<span className="text-sm font-medium text-gray-700">Price:</span>
 							<input
 								type="number"
-								placeholder="Từ"
+								placeholder="From"
 								value={filters.price?.gte || ""}
 								onChange={(e) => {
 									const value = e.target.value ? Number(e.target.value) : undefined;
@@ -530,7 +529,7 @@ export function ProductFilter({
 							<span className="text-gray-400">-</span>
 							<input
 								type="number"
-								placeholder="Đến"
+								placeholder="To"
 								value={filters.price?.lte || ""}
 								onChange={(e) => {
 									const value = e.target.value ? Number(e.target.value) : undefined;
@@ -542,7 +541,6 @@ export function ProductFilter({
 								className="w-20 border-0 bg-transparent text-sm focus:outline-none focus:ring-0"
 								min="0"
 							/>
-							<span className="text-sm text-gray-500">₫</span>
 						</div>
 					</div>
 
@@ -552,7 +550,7 @@ export function ProductFilter({
 							onClick={() => toggleSection("price")}
 							className="mb-3 flex w-full items-center justify-between text-left font-medium text-gray-900"
 						>
-							Khoảng giá
+							Price range
 							<ChevronDown
 								className={`h-4 w-4 transition-transform ${openSections.price ? "rotate-180" : ""}`}
 							/>

@@ -61,10 +61,10 @@ const ProductsPage: React.FC<ProductsPageProps> = ({
 				{ id: "over-1000", label: "Trên 1.000.000đ" },
 			],
 			sortOptions: [
-				{ id: "NAME", label: "Tên A-Z" },
-				{ id: "PRICE", label: "Giá thấp đến cao" },
-				{ id: "-PRICE", label: "Giá cao đến thấp" },
-				{ id: "CREATED_AT", label: "Mới nhất" },
+				{ id: "NAME", label: "Name A-Z" },
+				{ id: "PRICE", label: "Price: Low to High" },
+				{ id: "-PRICE", label: "Price: High to Low" },
+				{ id: "CREATED_AT", label: "Newest" },
 			],
 		}),
 		[],
@@ -140,13 +140,13 @@ const ProductsPage: React.FC<ProductsPageProps> = ({
 							<div className="flex items-center justify-between rounded-t-lg bg-white p-4 py-0">
 								<div className="flex items-center gap-4">
 									<span className="text-sm text-gray-600">
-										Hiển thị {isFilterLoading ? "..." : products.length} /{" "}
-										{isFilterLoading ? "..." : totalCount} sản phẩm
+										View {isFilterLoading ? "..." : products.length} /{" "}
+										{isFilterLoading ? "..." : totalCount} products
 									</span>
 									{(serverLoading || isFilterLoading) && (
 										<div className="flex items-center gap-2">
 											<Loader2 className="h-4 w-4 animate-spin text-gray-400" />
-											<span className="text-sm text-gray-500">Đang tải...</span>
+											<span className="text-sm text-gray-500">Loading...</span>
 										</div>
 									)}
 								</div>
@@ -215,15 +215,15 @@ const ProductsPage: React.FC<ProductsPageProps> = ({
 													className="flex items-center gap-2 rounded-lg bg-gray-900 px-6 py-3 font-medium text-white transition-colors duration-200 hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
 												>
 													{(serverLoading || isLoadingMore) && <Loader2 className="h-4 w-4 animate-spin" />}
-													{serverLoading || isLoadingMore ? "Đang tải..." : "Xem thêm sản phẩm"}
+													{serverLoading || isLoadingMore ? "Loading..." : "View more"}
 												</button>
 											</div>
 										)}
 
 										{products.length === 0 && !serverLoading && !isFilterLoading && (
 											<div className="py-12 text-center">
-												<p className="text-lg text-gray-500">Không tìm thấy sản phẩm nào</p>
-												<p className="mt-2 text-gray-400">Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm</p>
+												<p className="text-lg text-gray-500">No products found</p>
+												<p className="mt-2 text-gray-400">Try changing the filter or search keyword</p>
 											</div>
 										)}
 									</>
