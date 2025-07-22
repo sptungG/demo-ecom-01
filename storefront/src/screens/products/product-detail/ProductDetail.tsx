@@ -51,8 +51,8 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 		return (
 			<div className="flex min-h-screen items-center justify-center">
 				<div className="text-center">
-					<h2 className="mb-2 text-2xl font-semibold text-gray-900">Product not found</h2>
-					<p className="text-gray-600">The product you are looking for was not found.</p>
+					<h2 className="mb-2 text-2xl font-semibold text-foreground">Product not found</h2>
+					<p className="text-muted-foreground">The product you are looking for was not found.</p>
 				</div>
 			</div>
 		);
@@ -127,9 +127,9 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 				{/* Product Images Gallery */}
 				<div className="space-y-4">
 					{/* Main Image */}
-					<div className="aspect-square overflow-hidden rounded-lg bg-gray-100">
+					<div className="aspect-square overflow-hidden rounded-lg bg-muted">
 						{selectedImage ? (
-							<div className="relative aspect-square overflow-hidden rounded-lg bg-gray-100">
+							<div className="relative aspect-square overflow-hidden rounded-lg bg-muted">
 								<Zoom>
 									<img
 										src={selectedImage?.url ?? product.thumbnail?.url}
@@ -139,7 +139,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 								</Zoom>
 							</div>
 						) : (
-							<div className="flex h-full w-full items-center justify-center text-gray-400">
+							<div className="flex h-full w-full items-center justify-center text-muted-foreground">
 								<span className="text-lg">No image available</span>
 							</div>
 						)}
@@ -164,8 +164,8 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 												onClick={() => setSelectedImage(image)}
 												className={`aspect-square w-full overflow-hidden rounded-lg border-2 transition-all duration-200 ${
 													image.url === selectedImage.url
-														? "border-blue-500 ring-2 ring-blue-200"
-														: "border-gray-200 hover:border-gray-300"
+														? "border-primary ring-2 ring-primary/20"
+														: "border-border hover:border-muted-foreground"
 												}`}
 											>
 												<img
@@ -191,55 +191,55 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 				{/* Product Info */}
 				<div className="space-y-6">
 					{/* Breadcrumb */}
-					<nav className="text-sm text-gray-500">
-						<Link href="/">Home</Link>
+					<nav className="text-sm text-muted-foreground">
+						<Link href="/" className="hover:text-foreground transition-colors">Home</Link>
 						<span className="mx-2">/</span>
-						<Link href={`/${channel}/products`}>Products</Link>
+						<Link href={`/${channel}/products`} className="hover:text-foreground transition-colors">Products</Link>
 						{product.category && (
 							<>
 								<span className="mx-2">/</span>
-								<span>{product.category.name}</span>
+								<span className="hover:text-foreground transition-colors">{product.category.name}</span>
 							</>
 						)}
 						<span className="mx-2">/</span>
-						<span className="text-gray-900">{product.name}</span>
+						<span className="text-foreground">{product.name}</span>
 					</nav>
 
 					{/* Product Title & Rating */}
 					<div>
-						<h1 className="mb-2 text-3xl font-bold text-gray-900">{product.name}</h1>
+						<h1 className="mb-2 text-3xl font-bold text-foreground">{product.name}</h1>
 						<div className="flex items-center space-x-4">
 							<div className="flex items-center">
 								{[1, 2, 3, 4, 5].map((star) => (
 									<Star
 										key={star}
-										className={`h-5 w-5 ${star <= 4 ? "fill-current text-yellow-400" : "text-gray-300"}`}
+										className={`h-5 w-5 ${star <= 4 ? "fill-current text-yellow-500" : "text-muted-foreground"}`}
 									/>
 								))}
-								<span className="ml-2 text-sm text-gray-600">(4.0) • 128 reviews</span>
+								<span className="ml-2 text-sm text-muted-foreground">(4.0) • 128 reviews</span>
 							</div>
-							<span className="text-sm text-gray-500">SKU: {product.id.slice(-8)}</span>
+							<span className="text-sm text-muted-foreground">SKU: {product.id.slice(-8)}</span>
 						</div>
 					</div>
 
 					{/* Price */}
 					<div className="space-y-2">
 						<div className="flex items-center space-x-3">
-							<span className="text-3xl font-bold text-red-600">{price}</span>
+							<span className="text-3xl font-bold text-destructive">{price}</span>
 						</div>
-						<p className="text-sm text-gray-600">Price includes VAT</p>
+						<p className="text-sm text-muted-foreground">Price includes VAT</p>
 					</div>
 
 					{/* Stock Status */}
 					<div className="flex items-center space-x-2">
 						<div
 							className={`h-3 w-3 rounded-full ${
-								(selectedVariant?.quantityAvailable || 0) > 0 ? "bg-green-500" : "bg-red-500"
+								(selectedVariant?.quantityAvailable || 0) > 0 ? "bg-green-500" : "bg-destructive"
 							}`}
 						></div>
 						<span
 							className={`text-sm font-medium ${
-								(selectedVariant?.quantityAvailable || 0) > 0 ? "text-green-600" : "text-red-600"
+								(selectedVariant?.quantityAvailable || 0) > 0 ? "text-green-600" : "text-destructive"
 							}`}
 						>
 							{(selectedVariant?.quantityAvailable || 0) > 0
@@ -251,7 +251,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 					{/* Variants */}
 					{product.variants && product.variants.length > 1 && (
 						<div className="space-y-3">
-							<h3 className="text-sm font-medium text-gray-900">Variants:</h3>
+							<h3 className="text-sm font-medium text-foreground">Variants:</h3>
 							<div className="grid grid-cols-2 gap-2">
 								{product.variants.map((variant) => (
 									<button
@@ -259,13 +259,13 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 										onClick={() => handleVariantChange(variant)}
 										className={`rounded-lg border p-3 text-left transition-colors ${
 											selectedVariant?.id === variant.id
-												? "border-blue-500 bg-blue-50 text-blue-700"
-												: "border-gray-300 hover:border-gray-400"
+												? "border-primary bg-primary/5 text-primary"
+												: "border-border hover:border-muted-foreground hover:bg-muted/50"
 										}`}
 									>
 										<div className="font-medium">{variant.name}</div>
 										{variant.pricing?.price?.gross && (
-											<div className="text-sm text-gray-600">
+											<div className="text-sm text-muted-foreground">
 												{variant.pricing.price.gross.amount.toLocaleString("en-US")}{" "}
 												{variant.pricing.price.gross.currency}
 											</div>
@@ -278,18 +278,18 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 
 					{/* Quantity Selector */}
 					<div className="space-y-3">
-						<h3 className="text-sm font-medium text-gray-900">Quantity:</h3>
+						<h3 className="text-sm font-medium text-foreground">Quantity:</h3>
 						<div className="flex items-center space-x-3">
 							<button
 								onClick={() => setQuantity(Math.max(1, quantity - 1))}
-								className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-300 hover:border-gray-400"
+								className="flex h-10 w-10 items-center justify-center rounded-lg border border-border hover:border-muted-foreground hover:bg-muted/50 transition-colors"
 							>
 								<Minus className="h-4 w-4" />
 							</button>
 							<span className="min-w-[3rem] text-center text-lg font-medium">{quantity}</span>
 							<button
 								onClick={() => setQuantity(quantity + 1)}
-								className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-300 hover:border-gray-400"
+								className="flex h-10 w-10 items-center justify-center rounded-lg border border-border hover:border-muted-foreground hover:bg-muted/50 transition-colors"
 							>
 								<Plus className="h-4 w-4" />
 							</button>
@@ -302,7 +302,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 							<button
 								onClick={handleAddToCart}
 								disabled={(selectedVariant?.quantityAvailable || 0) === 0 || isAddingToCart}
-								className="flex flex-1 items-center justify-center space-x-2 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
+								className="flex flex-1 items-center justify-center space-x-2 rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
 							>
 								<ShoppingCart className="h-5 w-5" />
 								<span>{isAddingToCart ? "Adding..." : "Add to Cart"}</span>
@@ -311,8 +311,8 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 								onClick={() => setIsFavorite(!isFavorite)}
 								className={`rounded-lg border p-3 transition-colors ${
 									isFavorite
-										? "border-red-500 bg-red-50 text-red-600"
-										: "border-gray-300 hover:border-gray-400"
+										? "border-destructive bg-destructive/5 text-destructive"
+										: "border-border hover:border-muted-foreground hover:bg-muted/50"
 								}`}
 							>
 								<Heart className={`h-5 w-5 ${isFavorite ? "fill-current" : ""}`} />
@@ -323,33 +323,33 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 						<button
 							onClick={handleBuyNow}
 							disabled={(selectedVariant?.quantityAvailable || 0) === 0 || isAddingToCart}
-							className="w-full rounded-lg bg-red-600 px-6 py-3 font-medium text-white transition-colors hover:bg-red-700 disabled:cursor-not-allowed disabled:bg-gray-300"
+							className="w-full rounded-lg bg-destructive px-6 py-3 font-medium text-destructive-foreground transition-colors hover:bg-destructive/90 disabled:cursor-not-allowed disabled:opacity-50"
 						>
 							{isAddingToCart ? "Processing..." : "Buy Now"}
 						</button>
 					</div>
 
 					{/* Features */}
-					<div className="grid grid-cols-1 gap-4 border-t border-gray-200 pt-6 sm:grid-cols-3">
+					<div className="grid grid-cols-1 gap-4 border-t border-border pt-6 sm:grid-cols-3">
 						<div className="flex items-center space-x-3">
-							<Truck className="h-6 w-6 text-blue-600" />
+							<Truck className="h-6 w-6 text-primary" />
 							<div>
-								<div className="text-sm font-medium">Free Shipping</div>
-								<div className="text-xs text-gray-600">Orders over $50</div>
+								<div className="text-sm font-medium text-foreground">Free Shipping</div>
+								<div className="text-xs text-muted-foreground">Orders over $50</div>
 							</div>
 						</div>
 						<div className="flex items-center space-x-3">
 							<Shield className="h-6 w-6 text-green-600" />
 							<div>
-								<div className="text-sm font-medium">12 Month Warranty</div>
-								<div className="text-xs text-gray-600">100% Authentic</div>
+								<div className="text-sm font-medium text-foreground">12 Month Warranty</div>
+								<div className="text-xs text-muted-foreground">100% Authentic</div>
 							</div>
 						</div>
 						<div className="flex items-center space-x-3">
 							<RotateCcw className="h-6 w-6 text-orange-600" />
 							<div>
-								<div className="text-sm font-medium">30 Day Returns</div>
-								<div className="text-xs text-gray-600">Free returns</div>
+								<div className="text-sm font-medium text-foreground">30 Day Returns</div>
+								<div className="text-xs text-muted-foreground">Free returns</div>
 							</div>
 						</div>
 					</div>
@@ -360,7 +360,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 			<ProductDetailTabs product={product} selectedVariant={selectedVariant as any} />
 
 			{/* Related Products Carousel */}
-			<div className="mt-4 border-t border-gray-200 pt-4">
+			<div className="mt-4 border-t border-border pt-4">
 				<RelatedProductsCarousel products={relatedProducts ?? []} title="Related Products" />
 			</div>
 		</div>
